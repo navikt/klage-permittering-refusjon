@@ -6,15 +6,14 @@ import './App.less';
 
 const App = () => {
     return (
-        <div className="app">
-            <LoginBoundary>
-                <BrowserRouter basename="/klage-permittering-refusjon">
-                    <Switch>
-                        <Route path="/" exact={true} component={Skjema} />
-                    </Switch>
-                </BrowserRouter>
-            </LoginBoundary>
-        </div>
+        <LoginBoundary>
+            <BrowserRouter basename="/klage-permittering-refusjon">
+                <Switch>
+                    <Route path="/" exact={true} component={Skjema} />
+                </Switch>
+            </BrowserRouter>
+        </LoginBoundary>
+
     );
 };
 

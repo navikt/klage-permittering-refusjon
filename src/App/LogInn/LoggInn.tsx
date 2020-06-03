@@ -18,7 +18,7 @@ export const LoggInn: FunctionComponent = () => {
     };
 
     return (
-        <div className="innloggingsside">
+        <div className="innloggingsside innhold-container">
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
                 <Systemtittel className="innloggingsside__sidetittel">
