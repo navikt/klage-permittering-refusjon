@@ -1,24 +1,21 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .logg-inn-banner {
-    display: flex;
-    flex-direction: row;
     background-color: @navBlaLighten80;
     border-bottom: 4px solid @navBlaLighten60;
-    height: 12rem;
-    margin-bottom: 1rem;
-    justify-content: space-around;
-
-    &__container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        width: 60rem;
-    }
+    height: 10.5rem;
+    display: flex;
+    align-items: center;
 
     &__tittel-og-tekst {
-        margin: 2rem 0 0 0;
+        padding: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        // align-items: center;
+
+        .tittel {
+            margin-bottom: 0.5rem;
+        }
     }
 
     &__bilder {
@@ -28,23 +25,45 @@
 
 @media (min-width: @screen-sm) {
     .logg-inn-banner {
-        &__tittel-og-tekst {
+        height: 12rem;
+
+        &__container {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-top: 1.5rem;
-            height: 5rem;
-            justify-content: space-between;
+            margin: 0 auto;
+            width: 46rem;
+            position: relative;
+        }
+
+        &__tittel-og-tekst {
+            //height: 12rem;
+
+            // margin-top: 2rem;
+            padding: 0;
+            width: 28rem;
         }
 
         &__bilder {
-            display: initial;
-            align-self: flex-end;
+            display: block;
+            position: absolute;
+            bottom: -41px;
+            right: 1rem;
+        }
+    }
+}
+
+@media (min-width: @screen-md) {
+    .logg-inn-banner {
+        &__container {
+            width: 60rem;
         }
 
-        &__container {
-            justify-content: space-around;
-            width: 60rem;
+        &__tittel-og-tekst {
+            width: 30rem;
+        }
+
+        &__bilder {
+            bottom: -41px;
+            right: 0;
         }
     }
 }

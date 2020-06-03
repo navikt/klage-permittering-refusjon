@@ -1,14 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import {Normaltekst, Systemtittel} from 'nav-frontend-typografi';
+import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import environment from '../../utils/environment';
-import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
-import {TilgangsStyringInfoTekst} from "./TilgangsStyringInfoTekst/TilgangsStyringInfoTekst";
+import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import './Logginn.less';
 
 export const LoggInn: FunctionComponent = () => {
-
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
             window.location.href = '/klage-permittering-refusjon/redirect-til-login';
@@ -20,37 +18,26 @@ export const LoggInn: FunctionComponent = () => {
     };
 
     return (
-            <div className="innloggingsside">
-                <LoggInnBanner />
-                <div className="innloggingsside__innhold">
-                    <Systemtittel className="innloggingsside__sidetittel">
-                        På denne siden kan du:
-                    </Systemtittel>
+        <div className="innloggingsside">
+            <LoggInnBanner />
+            <div className="innloggingsside__innhold">
+                <Systemtittel className="innloggingsside__sidetittel">
+                    På denne siden kan du:
+                </Systemtittel>
 
-                    <ul className="innloggingsside__punktliste">
-                        <li className="innloggingsside__punkt">
-                            klage
-                        </li>
-                        <li className="innloggingsside__punkt">
-                            Klage mer
-                        </li>
-                    </ul>
-                    <TilgangsStyringInfoTekst />
+                <ul className="innloggingsside__punktliste">
+                    <li className="innloggingsside__punkt">klage</li>
+                    <li className="innloggingsside__punkt">Klage enda mer</li>
+                </ul>
+                <Hovedknapp className="innloggingsside__loginKnapp" onClick={redirectTilLogin}>
+                    Logg inn
+                </Hovedknapp>
 
-                    <Hovedknapp
-                        className="innloggingsside__loginKnapp"
-                        onClick={redirectTilLogin}
-                    >
-                        Logg inn
-                    </Hovedknapp>
-
-                    <div className="innloggingsside__besok-ditt-nav">
-                        <Normaltekst>Ønsker du å se dine tjenester som privatperson? </Normaltekst>
-                        <Lenke href="https://www.nav.no/person/dittnav/">
-                            Logg inn på Ditt NAV
-                        </Lenke>
-                    </div>
+                <div className="innloggingsside__besok-ditt-nav">
+                    <Normaltekst>Ønsker du å se dine tjenester som privatperson? </Normaltekst>
+                    <Lenke href="https://www.nav.no/person/dittnav/">Logg inn på Ditt NAV</Lenke>
                 </div>
             </div>
+        </div>
     );
 };

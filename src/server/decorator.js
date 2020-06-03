@@ -5,9 +5,9 @@ const { JSDOM } = jsdom;
 url = '';
 
 if (process.env.NAIS_CLUSTER_NAME === 'prod-sbs') {
-    url = 'https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true';
+    url = 'https://www.nav.no/dekoratoren/?context=arbeidsgiver';
 } else {
-    url = 'https://www-q1.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true';
+    url = 'https://www-q1.nav.no/dekoratoren/?context=arbeidsgiver';
 }
 
 const requestDecorator = (callback) => request(url, callback);

@@ -10,10 +10,10 @@ const LoggInnBanner = () => {
         <div className="logg-inn-banner">
             <div className="logg-inn-banner__container">
                 <div className="logg-inn-banner__tittel-og-tekst">
-                    <Sidetittel className="logg-inn-banner__tittel">
+                    <Sidetittel className="tittel">
                         Klage på vedtak for refusjon ved permittering
                     </Sidetittel>
-                    <Ingress className="logg-inn-banner__ingress">
+                    <Ingress className="ingress">
                         Innloggede tjenester for arbeidsgiver
                     </Ingress>
                 </div>
