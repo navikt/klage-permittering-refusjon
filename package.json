@@ -1,0 +1,54 @@
+{
+  "name": "klage-permittering-refusjon",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "/klage-permittering-refusjon",
+
+  "dependencies": {
+    "@craco/craco": "^5.6.4",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.9",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.5",
+    "classnames": "^2.2.6",
+    "craco-less": "^1.17.0",
+    "nav-frontend-core": "^4.0.12",
+    "nav-frontend-lenker": "^1.0.35",
+    "nav-frontend-lenker-style": "^0.2.26",
+    "nav-frontend-typografi": "^2.0.19",
+    "nav-frontend-typografi-style": "^1.0.20",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-app-polyfill": "^1.0.6",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "typescript": "^3.9.3"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "ie 11"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "ingress": "https://arbeidsgiver-q.nav.no/klage-permittering-refusjon",
+  "api-gw-url": "https://api-gw-q1.oera.no",
+  "api-gw-url-q0": "https://api-gw-q0.oera.no",
+  "selvbetjening-login-url": "https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/klage-permittering-refusjon",
+  "logout-url": "https://loginservice-q.nav.no/slo",
+  "decorator-external-url": ""
+}
