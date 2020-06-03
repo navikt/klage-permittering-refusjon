@@ -3,11 +3,11 @@ const request = require('request');
 
 const { JSDOM } = jsdom;
 url = '';
-    if (process.env.NAIS_CLUSTER_NAME === "prod-sbs") {
-        url = "https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true";
-    } else {
-        url = "https://www-q1.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true";
-    }
+if (process.env.NAIS_CLUSTER_NAME === 'prod-sbs') {
+    url = 'https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true';
+} else {
+    url = 'https://www-q1.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true';
+}
 
 const requestDecorator = (callback) => request(url, callback);
 
