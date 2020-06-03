@@ -7,11 +7,11 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import './Logginn.less';
 
 export const LoggInn: FunctionComponent = () => {
+
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
             window.location.href = '/klage-permittering-refusjon/redirect-til-login';
         } else {
-            document.cookie = 'nav-esso=0123456789..*; path=/;';
             document.cookie = 'selvbetjening-idtoken=0123456789..*; path=/;';
             window.location.href = '/klage-permittering-refusjon';
         }

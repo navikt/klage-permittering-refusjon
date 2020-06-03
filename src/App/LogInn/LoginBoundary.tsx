@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { hentInnloggingstatus, Innloggingstatus } from '../../api/innloggingsstatusApi';
+import { hentInnloggingstatus } from '../../api/innloggingsstatusApi';
 import { LoggInn } from './LoggInn';
-import { veilarbstepupUrl } from '../../lenker';
 import environment from '../../utils/environment';
 
 export enum Tilgang {
@@ -10,14 +9,6 @@ export enum Tilgang {
     TILGANG,
 }
 
-function setEssoCookieLocally() {
-    document.cookie = 'nav-esso=0123456789..*; path=/; domain=localhost;';
-}
-function getEssoToken(veilarbStatusRespons: Innloggingstatus) {
-    if (!veilarbStatusRespons.erInnlogget) {
-        window.location.href = veilarbstepupUrl();
-    }
-}
 const LoginBoundary: FunctionComponent = (props) => {
     const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
@@ -27,21 +18,16 @@ const LoginBoundary: FunctionComponent = (props) => {
         } else {
             setInnlogget(Tilgang.IKKE_TILGANG);
         }
-        setEssoCookieLocally();
     }
 
     useEffect(() => {
         setInnlogget(Tilgang.LASTER);
         const getLoginStatus = async () => {
             if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-                let veilarbStatusRespons = await hentInnloggingstatus();
-                if (
-                    veilarbStatusRespons.harGyldigOidcToken &&
-                    veilarbStatusRespons.nivaOidc === 4
-                ) {
-                    getEssoToken(veilarbStatusRespons);
+                let innloggingsstatus = await hentInnloggingstatus();
+                if (innloggingsstatus.harGyldigOidcToken && innloggingsstatus.nivaOidc === 4) {
                     setInnlogget(Tilgang.TILGANG);
-                } else {
+                } else if (!innloggingsstatus.harGyldigOidcToken) {
                     setInnlogget(Tilgang.IKKE_TILGANG);
                 }
             } else {
