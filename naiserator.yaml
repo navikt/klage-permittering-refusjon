@@ -1,7 +1,7 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-  name: naiserator.yaml
+  name: klage-permittering-refusjon
   namespace: default
   labels:
     team: arbeidsgiver
