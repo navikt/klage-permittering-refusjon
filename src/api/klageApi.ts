@@ -23,7 +23,5 @@ export const sendKlage = async (data: {
         },
     });
 
-    if (respons.ok) {
-        return await respons.json();
-    }
+    return respons.status;
 };
