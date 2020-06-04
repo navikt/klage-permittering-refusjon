@@ -1,13 +1,18 @@
 import React from 'react';
 import Lenke from 'nav-frontend-lenker';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import Snakkeboble from 'nav-frontend-snakkeboble';
 import { Flatknapp } from 'nav-frontend-knapper';
 import { minSideArbeidsgiverUrl } from '../../lenker';
 import { dato } from './datofunksjoner';
 import './Kvitteringsside.less';
+import KvitteringssideIkon from "./KvitteringssideIkon";
+import VeilederSnakkeboble from "../Komponenter/Snakkeboble/VeilederSnakkeboble";
 
 const Kvitteringsside = () => {
+    const snakkebobletekst =
+        `Takk for din klage. Du får beskjed per post til virksomhetens adresse når vi har
+         behandlet klagen din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
+
     return (
         <div className="kvitteringsside">
             <Normaltekst className="brodsmule">
@@ -15,13 +20,13 @@ const Kvitteringsside = () => {
                 {' / Klage på vedtak for refusjon ved permittering'}
             </Normaltekst>
 
-            <Snakkeboble className="kvitteringsside__snakkeboble">
-                Takk for din klage. Du får beskjed per post til virksomhetens adresse når vi har
-                behandlet klagen din. Vi kontakter deg hvis vi har noen spørsmål i saken.
-            </Snakkeboble>
+            <VeilederSnakkeboble tekst={snakkebobletekst} />
 
             <div className="kvitteringsside__oppsummering">
-                <Systemtittel>{'Klage sendt inn ' + dato()}</Systemtittel>
+                <div className="oppsummering-tittel">
+                    <KvitteringssideIkon />
+                    <Systemtittel className="oppsummering-overskrift">{'Klage sendt inn ' + dato()}</Systemtittel>
+                </div>
 
                 <Normaltekst className="bedriftinfo-tittel bold">Virksomhet:</Normaltekst>
                 <Normaltekst className="bedriftinfo-navn">GAMLE FREDRIKSTAD OG RIKSDALEN</Normaltekst>
