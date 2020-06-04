@@ -3,8 +3,9 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Skjema from './Skjema/Skjema';
 import LoginBoundary from './LogInn/LoginBoundary';
 import './App.less';
-import { opprett } from '../api/klagePermitteringRefusjonApi';
+
 import environment from '../utils/environment';
+import { opprett } from '../api/klagePermitteringRefusjonApi';
 
 const App = () => {
     useEffect( () => {
