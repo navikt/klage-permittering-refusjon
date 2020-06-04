@@ -7,6 +7,7 @@ import './App.less';
 import environment from '../utils/environment';
 import { opprett } from '../api/klagePermitteringRefusjonApi';
 
+
 const App = () => {
     useEffect( () => {
         if (environment.MILJO) {
