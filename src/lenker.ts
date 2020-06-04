@@ -18,8 +18,5 @@ export const minSideArbeidsgiverUrl = (orgnr: string) => {
 };
 
 export const testLenkeBackend = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nais.adeo.no/klage-permittering-refusjon-api/'
-    }
-    return 'https://arbeidsgiver.nais.preprod.local/klage-permittering-refusjon-api/skjema'
+    return '/klage-permittering-refusjon/api/skjema'
 };
