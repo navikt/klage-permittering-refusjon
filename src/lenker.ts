@@ -18,5 +18,5 @@ export const minSideArbeidsgiverUrl = (orgnr: string) => {
 };
 
 export const testLenkeBackend = () => {
-    return '/klage-permittering-refusjon/api/skjema'
+    return '/klage-permittering-refusjon/api/klage'
 };
