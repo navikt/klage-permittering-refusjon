@@ -14,6 +14,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "amplitude-js": "^6.1.0-debug-cookie.1",
+    "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "craco-less": "^1.17.0",
     "express": "^4.17.1",
