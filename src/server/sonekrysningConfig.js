@@ -12,7 +12,7 @@ const proxyConfig = {
         '^/klage-permittering-refusjon/api': '/klage-permittering-refusjon-api/api',
     },
     secure: true,
-    xfwd: true
+    xfwd: true,
 };
 
 if (envProperties.APIGW_HEADER) {

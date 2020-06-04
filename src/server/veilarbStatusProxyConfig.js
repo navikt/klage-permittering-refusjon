@@ -1,23 +1,21 @@
 const proxy = require('http-proxy-middleware');
 
 const veilarbStatus = () => {
-    if (process.env.NAIS_CLUSTER_NAME === "prod-sbs") {
-        return "https://tjenester.nav.no/";
+    if (process.env.NAIS_CLUSTER_NAME === 'prod-sbs') {
+        return 'https://tjenester.nav.no/';
     } else {
-        return "https://tjenester-q1.nav.no/";
+        return 'https://tjenester-q1.nav.no/';
     }
 };
-
 
 const veilarbStatusProxyConfig = {
     changeOrigin: true,
     target: veilarbStatus(),
-        pathRewrite: {
-    '^/klage-permittering-refusjon': '',
-},
+    pathRewrite: {
+        '^/klage-permittering-refusjon': '',
+    },
     secure: true,
-    xfwd: true
+    xfwd: true,
 };
-
 
 module.exports = proxy(veilarbStatusProxyConfig);

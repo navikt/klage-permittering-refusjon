@@ -1,0 +1,65 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.logg-inn-banner {
+    background-color: @navBlaLighten80;
+    border-bottom: 4px solid @navBlaLighten60;
+    height: 10.5rem;
+    display: flex;
+    align-items: center;
+
+    &__tittel-og-tekst {
+        padding: 0.8rem;
+        display: flex;
+        flex-direction: column;
+
+        .tittel {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    &__bilder {
+        display: none;
+    }
+}
+
+@media (min-width: @screen-sm) {
+    .logg-inn-banner {
+        height: 12rem;
+
+        &__container {
+            display: flex;
+            margin: 0 auto;
+            width: 46rem;
+            position: relative;
+        }
+
+        &__tittel-og-tekst {
+            padding: 0;
+            width: 28rem;
+        }
+
+        &__bilder {
+            display: block;
+            position: absolute;
+            bottom: -41px;
+            right: 1rem;
+        }
+    }
+}
+
+@media (min-width: @screen-md) {
+    .logg-inn-banner {
+        &__container {
+            width: 60rem;
+        }
+
+        &__tittel-og-tekst {
+            width: 30rem;
+        }
+
+        &__bilder {
+            bottom: -41px;
+            right: 0;
+        }
+    }
+}

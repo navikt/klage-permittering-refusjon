@@ -1,20 +1,19 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Hovedside from './Hovedside/Hovedside';
-// import amplitude from '../utils/amplitude';
+import Skjema from './Skjema/Skjema';
+import LoginBoundary from './LogInn/LoginBoundary';
 import './App.less';
 
 const App = () => {
-    // amplitude.logEvent('bla bla bla', bla);
-
     return (
-        <div className="app">
+        <LoginBoundary>
             <BrowserRouter basename="/klage-permittering-refusjon">
                 <Switch>
-                    <Route path="/" exact={true} component={Hovedside} />
+                    <Route path="/" exact={true} component={Skjema} />
                 </Switch>
             </BrowserRouter>
-        </div>
+        </LoginBoundary>
+
     );
 };
 
