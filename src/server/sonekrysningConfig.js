@@ -9,7 +9,7 @@ const proxyConfig = {
     changeOrigin: true,
     target: envProperties.API_GATEWAY,
     pathRewrite: {
-        '^/klage-permittering-refusjon/api': '/klage-permittering-refusjon-api/api',
+        '^/klage-permittering-refusjon/api': '/klage-permittering-refusjon-api',
     },
     secure: true,
     xfwd: true,
@@ -20,5 +20,6 @@ if (envProperties.APIGW_HEADER) {
         'x-nav-apiKey': envProperties.APIGW_HEADER,
     };
 }
+console.log('Proxycinfigfil brukt')
 
 module.exports = proxy(proxyConfig);
