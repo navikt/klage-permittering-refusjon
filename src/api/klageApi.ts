@@ -1,11 +1,3 @@
-export const testKall = async () => {
-    const respons = await fetch('/klage-permittering-refusjon/api/klage', {
-        method: 'POST',
-        credentials: 'include',
-        body: 'hei',
-    });
-};
-
 export const sendKlage = async (data: {
     orgnr: string;
     referansekode: string;
