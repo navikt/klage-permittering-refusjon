@@ -1308,6 +1308,16 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
+"@navikt/fnrvalidator@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@navikt/fnrvalidator/-/fnrvalidator-1.1.2.tgz#b8fdf0997149aef1c2da0cee398281175f756c4c"
+  integrity sha512-F3Y8jzUtafjOEij+PvfL2TPjuvLnVQ+Gnd5cI/sPl56sUZMo2SIy104kgigdie9i3r8ya4bZRfIVHWjd272KEw==
+
+"@navikt/textparser@^2.0.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@navikt/textparser/-/textparser-2.0.1.tgz#b5de58f2f4a8887be561ec8c76ac8e120bdb3b5f"
+  integrity sha512-yOhrAW5ktTm51oOuq6lfmWFdtZlqDXmLdN0Aa4FynUwglVp+AD+wps/dXEqdxoXedUPTtdFXq3YEfduVrvaP7A==
+
 "@nodelib/fs.stat@^1.1.2":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
@@ -7230,6 +7240,16 @@ nav-frontend-paneler@^2.0.3:
   resolved "https://registry.yarnpkg.com/nav-frontend-paneler/-/nav-frontend-paneler-2.0.3.tgz#936dca5f0ca931c3e865bab15dc4afeb17ece887"
   integrity sha512-rlX/ITK8DVGjiIb6Ea6sXS/lryDsW1+UNU+4FMD9RWPwQcxwKZqf9IhbrsiSvv53Iql4U8w3cTElwnVozZKs2w==
 
+nav-frontend-skjema-style@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/nav-frontend-skjema-style/-/nav-frontend-skjema-style-2.0.7.tgz#fd23149769c5395c45fad53eac7fa689c639ea5e"
+  integrity sha512-GiaxfWIyWA8kqREsCgyGBRH9JBruiIRxHNl4ZHAcltAyZOPgqEdJ5YB6jBlq1bi3cjKuQPRaWDOqrKFGEIBuLg==
+
+nav-frontend-skjema@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/nav-frontend-skjema/-/nav-frontend-skjema-3.0.2.tgz#830f4e2efc73ad243c3d6650670bba0c69fd10fa"
+  integrity sha512-dbWduuORoiNNOKEoRz3MA3wnmCQBvzJs8gQJyyXpXGavOkReo72L9C4VCiidb1evfAG2dzRTfTcHQJRmw+KVJg==
+
 nav-frontend-snakkeboble-style@^0.2.26:
   version "0.2.26"
   resolved "https://registry.yarnpkg.com/nav-frontend-snakkeboble-style/-/nav-frontend-snakkeboble-style-0.2.26.tgz#56b6aa6ac60faf85590980222f17511cc1f5e5a9"
@@ -7239,6 +7259,13 @@ nav-frontend-snakkeboble@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/nav-frontend-snakkeboble/-/nav-frontend-snakkeboble-2.0.3.tgz#0ab944e1b175ffee774559267b8b225de0d401d0"
   integrity sha512-owt5/C6DZPUUDcvR/Wijbme8rUomBU7O7fu5Zq2FM4tq+Iohi4Zat0/CqDZ60lyWFZslsWjext5iSEkuo6FUTA==
+
+nav-frontend-tekstomrade@^2.0.44:
+  version "2.0.44"
+  resolved "https://registry.yarnpkg.com/nav-frontend-tekstomrade/-/nav-frontend-tekstomrade-2.0.44.tgz#3c550609c17c71c71a4f6d46c1c22d695c916d58"
+  integrity sha512-4SlPCAzrhmVf/9v7YdOnsHrSzzky+45KaDPRIDaf4QmfIL1kQZUqOrO4NJ6Gzlwe4/5wwfS7hVUGwmiWqgoIxA==
+  dependencies:
+    "@navikt/textparser" "^2.0.0"
 
 nav-frontend-typografi-style@^1.0.20:
   version "1.0.20"
