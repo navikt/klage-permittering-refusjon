@@ -16,10 +16,13 @@ const proxyConfig = {
 };
 
 if (envProperties.APIGW_HEADER) {
+    console.log('Klarte hente header')
     proxyConfig.headers = {
         'x-nav-apiKey': envProperties.APIGW_HEADER,
     };
 }
-console.log('Proxycinfigfil brukt')
+else {
+    console.log('klarte ikke hente header');
+}
 
 module.exports = proxy(proxyConfig);

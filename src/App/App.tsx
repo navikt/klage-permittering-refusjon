@@ -9,10 +9,11 @@ import environment from '../utils/environment';
 import { opprett } from '../api/klagePermitteringRefusjonApi';
 
 
+
 const App = () => {
     useEffect( () => {
         if (environment.MILJO) {
-            opprett({innhold: 'Jeg vil klage'})
+            opprett('jeg vil klage')
         }
 
     })
