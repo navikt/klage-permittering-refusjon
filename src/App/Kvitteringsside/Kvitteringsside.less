@@ -1,7 +1,6 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .kvitteringsside {
-    margin: 0 1rem;
 
     @media (min-width: @screen-sm) {
         width: 40rem;
@@ -15,39 +14,62 @@
 
     .brodsmule {
         padding: 1.5rem 0 2rem;
-    }
-
-    &__snakkeboble {
-        .snakkeboble-panel {
-            margin-bottom: 2.5rem;
-            background-color: @navBlaLighten80;
-        }
-
-        .snakkeboble__snakkebole-pil {
-            background-color: @navBlaLighten80;
-        }
+        margin: 0 1rem;
     }
 
     .snakkeboble--venstre {
-        margin-right: 0;
+        margin: 0 1rem;
+
+        @media (min-width: @screen-sm) {
+            margin: 0;
+        }
     }
 
     &__oppsummering {
         margin-bottom: 2rem;
         background-color: white;
-        padding: 1.5rem;
+        padding: 1rem;
         border-radius: 4px;
 
-        .typo-undertittel {
-            margin-bottom: 1.5rem;
+        @media (min-width: @screen-sm) {
+            padding: 1.5rem;
+        }
+
+        .oppsummering-tittel {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: wrap;
+
+            .oppsummering-overskrift {
+                width: 16rem;
+
+                @media (min-width: 375px) {
+                    width: 19rem;
+                }
+
+                @media (min-width: @screen-sm) {
+                    width: 25rem;
+                }
+            }
+
+            .kvitteringsside-ikon {
+                margin-right: 0.5rem;
+                text-align: center;
+                @media (min-width: @screen-sm) {
+                    text-align: left;
+                }
+            }
         }
     }
 
     &__ny-klage-knapp {
         padding: 2rem 0 3rem;
+        text-align: center;
 
         @media (min-width: @screen-sm) {
             padding: 1rem 0 3rem;
+            text-align: initial;
         }
     }
 }

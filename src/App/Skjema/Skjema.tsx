@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import Lenke from 'nav-frontend-lenker';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Snakkeboble from 'nav-frontend-snakkeboble';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { minSideArbeidsgiverUrl } from '../../lenker';
+import VeilederSnakkeboble from "../Komponenter/Snakkeboble/VeilederSnakkeboble";
 import './Skjema.less';
 
 const erGyldigTelefonNr = (nr: string) => {
@@ -32,6 +32,9 @@ const erGyldigEpost = (epost: string) => {
 const Skjema = () => {
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
+    const snakkebobletekst =
+        `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
+         permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
     return (
         <div className="skjema">
@@ -40,10 +43,7 @@ const Skjema = () => {
                 {' / Klage på vedtak for refusjon ved permittering'}
             </Normaltekst>
 
-            <Snakkeboble className="skjema__snakkeboble">
-                Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
-                permittering. Din klage må gjelde vedtaket NAV fattet i saken.
-            </Snakkeboble>
+            <VeilederSnakkeboble tekst={snakkebobletekst} />
 
             <div className="skjema__bedriftinfo">
                 <Normaltekst className="bedriftinfo-tittel bold">
