@@ -18,17 +18,13 @@ export const LoggInn: FunctionComponent = () => {
     };
 
     return (
-        <div className="innloggingsside innhold-container">
+        <div className="innloggingsside">
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
-                <Systemtittel className="innloggingsside__sidetittel">
-                    På denne siden kan du:
-                </Systemtittel>
+                <Normaltekst className="innloggingsside__sidetittel">
+                    Her kan du som arbeidsgiver klage på vedtaket knyttet til refusjon av forskuttert lønn ved permittering.
+                </Normaltekst>
 
-                <ul className="innloggingsside__punktliste">
-                    <li className="innloggingsside__punkt">klage</li>
-                    <li className="innloggingsside__punkt">Klage enda mer</li>
-                </ul>
                 <Hovedknapp className="innloggingsside__loginKnapp" onClick={redirectTilLogin}>
                     Logg inn
                 </Hovedknapp>
