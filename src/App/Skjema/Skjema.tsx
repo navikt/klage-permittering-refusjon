@@ -37,15 +37,17 @@ const Skjema = () => {
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
     // TODO Populer med data fra skjema
-    const onSendInnClick = () =>
-        sendKlage({
-            orgnr: '910825569',
-            referansekode: '4fw45',
-            navn: 'Geir Geirsen',
-            epost: 'geir@geir.no',
-            telefonnr: '16134623',
-            tekst: 'Min klage',
-        });
+    const onSendInnClick = async () =>
+        console.log(
+            await sendKlage({
+                orgnr: '910825569',
+                referansekode: '4fw45',
+                navn: 'Geir Geirsen',
+                epost: 'geir@geir.no',
+                telefonnr: '16134623',
+                tekst: 'Min klage',
+            })
+        );
 
     return (
         <div className="skjema">
