@@ -4,11 +4,64 @@
     margin: 0 1rem;
 
     @media (min-width: @screen-sm) {
-        width: 60rem;
+        width: 41rem;
         margin: 0 auto;
+
+        &__input-felt {
+            width: 31.5rem;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    .bold {
+        font-weight: 600;
     }
 
     .brodsmule {
-        padding: 1.5rem 0;
+        padding: 1.5rem 0 2rem;
+    }
+
+    &__snakkeboble {
+
+        .snakkeboble-panel {
+            margin-bottom: 2rem;
+            background-color: @navBlaLighten80;
+        }
+
+        .snakkeboble__snakkebole-pil {
+            background-color: @navBlaLighten80;
+        }
+    }
+
+    .snakkeboble--venstre {
+        margin-right: 0;
+    }
+
+    &__bedriftinfo {
+        margin-bottom: 2rem;
+    }
+
+    &__vedtakskode {
+        margin-bottom: 0.5rem;
+    }
+
+    &__beskrivelse {
+        margin-bottom: 2rem;
+
+        .textarea--medMeta {
+            height: 23rem !important;
+        }
+    }
+
+    .kontaktopplysninger-tittel {
+        margin-bottom: 1rem;
+    }
+
+    &__knapper {
+        padding: 2rem 0 3rem;
+
+        @media (min-width: @screen-sm) {
+            padding: 1rem 0 3rem;
+        }
     }
 }
