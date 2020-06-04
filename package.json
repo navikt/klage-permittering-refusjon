@@ -67,5 +67,8 @@
       "last 1 safari version",
       "ie 11"
     ]
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^1.0.4"
   }
 }
