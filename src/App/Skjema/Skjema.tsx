@@ -10,7 +10,7 @@ import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble'
 import { SkjemaContext } from './skjemaContext';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import './Skjema.less';
-import { loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
+import { loggKlageSendtInn,loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
@@ -80,7 +80,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
                     value={context.skjema.tekst}
-                    maxLength={1000}
+                    maxLength={4000}
                     onChange={(event: any) =>
                         context.settSkjemaVerdi('tekst', event.currentTarget.value)
                     }
