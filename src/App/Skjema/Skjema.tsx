@@ -10,7 +10,7 @@ import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble'
 import { SkjemaContext } from './skjemaContext';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import './Skjema.less';
-import { loggKlageSendtInn,loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
+import { loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
