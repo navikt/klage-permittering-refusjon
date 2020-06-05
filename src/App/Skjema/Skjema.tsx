@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Lenke from 'nav-frontend-lenker';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
@@ -8,6 +8,7 @@ import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import './Skjema.less';
+import { skjemaContext } from './skjemaContext';
 
 const erGyldigTelefonNr = (nr: string) => {
     const bestarAvSiffer = nr.match(/^[0-9]+$/);
@@ -41,6 +42,9 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
+    const { skjema, setSkjema } = useContext(skjemaContext);
+    console.log(skjema, setSkjema);
+
     // TODO Populer med data fra skjema
     const onSendInnClick = async () =>
         console.log(
@@ -67,9 +71,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Normaltekst className="bedriftinfo-tittel bold">
                     Klage på vedtak for virksomhet
                 </Normaltekst>
-                <Normaltekst className="bedriftinfo-navn">
-                    {valgtOrganisasjon.Name}
-                </Normaltekst>
+                <Normaltekst className="bedriftinfo-navn">{valgtOrganisasjon.Name}</Normaltekst>
                 <Normaltekst className="bedriftinfo-orgnr">
                     {`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}
                 </Normaltekst>
@@ -80,8 +82,13 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     className="skjema__input-felt"
                     label="Referansekode for vedtak"
                     description="Du finner referansekoden øverst på vedtaket du fikk i Altinn. Kopier og lim inn her."
-                    defaultValue=""
-                    onChange={() => {}}
+                    value={skjema.referansekode}
+                    onChange={(event) =>
+                        setSkjema({
+                            ...skjema,
+                            referansekode: event.target.value,
+                        })
+                    }
                 />
             </div>
 
@@ -89,9 +96,14 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Textarea
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
-                    value=""
+                    value={skjema.tekst}
                     maxLength={1000}
-                    onChange={() => {}}
+                    onChange={(event) =>
+                        setSkjema({
+                            ...skjema,
+                            tekst: event.target.value,
+                        })
+                    }
                 />
             </div>
 
@@ -102,13 +114,18 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Input
                     className="skjema__input-felt navn"
                     label="Navn"
-                    defaultValue=""
-                    onChange={() => {}}
+                    value={skjema.navn}
+                    onChange={(event) =>
+                        setSkjema({
+                            ...skjema,
+                            navn: event.target.value,
+                        })
+                    }
                 />
                 <Input
                     className="skjema__input-felt epost"
                     label="E-post"
-                    defaultValue=""
+                    value={skjema.epost}
                     feil={feilMeldingEpost}
                     onBlur={(event) => {
                         if (erGyldigEpost(event.currentTarget.value)) {
@@ -118,12 +135,18 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                             setFeilmeldingEpost('Vennligst oppgi en gyldig e-post');
                         }
                     }}
-                    onChange={() => setFeilmeldingEpost('')}
+                    onChange={(event) => {
+                        setFeilmeldingEpost('');
+                        setSkjema({
+                            ...skjema,
+                            epost: event.target.value,
+                        });
+                    }}
                 />
                 <Input
                     className="skjema__input-felt"
                     label="Telefonnummer"
-                    defaultValue=""
+                    value={skjema.telefonnr}
                     feil={feilMeldingTelefonNr}
                     onBlur={(event: any) => {
                         if (erGyldigTelefonNr(event.currentTarget.value)) {
@@ -138,7 +161,13 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                             setFeilmeldingTelefonNr('');
                         } else setFeilmeldingTelefonNr('Vennligst oppgi et gyldig telefonnummer');
                     }}
-                    onChange={() => setFeilmeldingTelefonNr('')}
+                    onChange={(event) => {
+                        setFeilmeldingTelefonNr('');
+                        setSkjema({
+                            ...skjema,
+                            telefonnr: event.target.value,
+                        });
+                    }}
                 />
             </div>
 
