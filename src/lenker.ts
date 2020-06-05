@@ -18,3 +18,7 @@ export const minSideArbeidsgiverUrl = (orgnr: string) => {
         return 'https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver/' + orgNrDel;
     }
 };
+
+export const testLenkeBackend = () => {
+    return '/klage-permittering-refusjon/api/klage'
+};

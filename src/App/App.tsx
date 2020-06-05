@@ -10,6 +10,8 @@ import {
 } from '../api/altinnApi';
 import { basename } from '../lenker';
 import { APISTATUS } from '../api/api-utils';
+import environment from '../utils/environment';
+import { opprett } from '../api/klagePermitteringRefusjonApi';
 import LoginBoundary from './LogInn/LoginBoundary';
 import HovedBanner from './HovedBanner/HovedBanner';
 import Skjema from './Skjema/Skjema';
@@ -87,6 +89,13 @@ const App = () => {
             setTilgangArbeidsforholdState(TILGANGSSTATE.IKKE_TILGANG);
         }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
+
+    useEffect( () => {
+        if (environment.MILJO) {
+            opprett('jeg vil klage')
+        }
+
+    })
 
     return (
         <LoginBoundary>

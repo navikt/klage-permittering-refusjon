@@ -5,6 +5,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { minSideArbeidsgiverUrl } from '../../lenker';
 import { Organisasjon } from '../../api/altinnApi';
+import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import './Skjema.less';
 
@@ -39,6 +40,19 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
+
+    // TODO Populer med data fra skjema
+    const onSendInnClick = async () =>
+        console.log(
+            await sendKlage({
+                orgnr: '910825569',
+                referansekode: '4fw45',
+                navn: 'Geir Geirsen',
+                epost: 'geir@geir.no',
+                telefonnr: '16134623',
+                tekst: 'Min klage',
+            })
+        );
 
     return (
         <div className="skjema">
@@ -129,7 +143,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
             </div>
 
             <div className="skjema__knapper">
-                <Hovedknapp onClick={() => {}}>Send inn klage</Hovedknapp>
+                <Hovedknapp onClick={onSendInnClick}>Send inn klage</Hovedknapp>
                 <Flatknapp onClick={() => {}}>Avbryt</Flatknapp>
             </div>
         </div>
