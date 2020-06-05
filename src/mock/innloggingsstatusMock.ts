@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock';
-import {Innloggingstatus} from "../api/innloggingsstatusApi";
+import { Innloggingstatus } from '../api/innloggingsstatusApi';
 
 export const innloggingsstatusMock: Innloggingstatus = {
     erInnlogget: false,
