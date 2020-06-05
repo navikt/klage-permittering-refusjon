@@ -10,14 +10,13 @@ import {
 } from '../api/altinnApi';
 import { basename } from '../lenker';
 import { APISTATUS } from '../api/api-utils';
-import environment from '../utils/environment';
-import { opprett } from '../api/klagePermitteringRefusjonApi';
 import LoginBoundary from './LogInn/LoginBoundary';
 import HovedBanner from './HovedBanner/HovedBanner';
 import Skjema from './Skjema/Skjema';
 import Kvitteringsside from './Kvitteringsside/Kvitteringsside';
 import IngenTilgangInfo from './IngenTilgangInfo/IngenTilgangInfo';
 import './App.less';
+import { loggBrukerLoggetPa } from '../utils/amplitudefunksjonerForLogging';
 
 enum TILGANGSSTATE {
     LASTER,
@@ -91,10 +90,7 @@ const App = () => {
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
     useEffect( () => {
-        if (environment.MILJO) {
-            opprett('jeg vil klage')
-        }
-
+       loggBrukerLoggetPa();
     })
 
     return (

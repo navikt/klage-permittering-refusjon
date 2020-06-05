@@ -8,6 +8,7 @@ import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import './Skjema.less';
+import { loggKlageSendtInn, loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
 
 const erGyldigTelefonNr = (nr: string) => {
     const bestarAvSiffer = nr.match(/^[0-9]+$/);
@@ -42,17 +43,26 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
     // TODO Populer med data fra skjema
-    const onSendInnClick = async () =>
-        console.log(
-            await sendKlage({
-                orgnr: valgtOrganisasjon.OrganizationNumber,
-                referansekode: 'Testreferanse',
-                navn: 'Test Testesen',
-                epost: 'test@test.no',
-                telefonnr: '12345678',
-                tekst: 'Dette er en testklage.',
-            })
-        );
+    const onSendInnClick = async () => {
+        try {
+            console.log(
+                await sendKlage({
+                    orgnr: valgtOrganisasjon.OrganizationNumber,
+                    referansekode: 'Testreferanse',
+                    navn: 'Test Testesen',
+                    epost: 'test@test.no',
+                    telefonnr: '12345678',
+                    tekst: 'Dette er en testklage.',
+                })
+            );
+            loggKlageSendtInn();
+
+        }
+        catch {
+            loggKlageSendtMislyktes()
+        }
+
+    }
 
     return (
         <div className="skjema">
