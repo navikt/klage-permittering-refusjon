@@ -30,7 +30,7 @@ const App = () => {
     const [organisasjonerLasteState, setOrganisasjonerLasteState] = useState<APISTATUS>(APISTATUS.LASTER);
     const [organisasjoner, setorganisasjoner] = useState(Array<Organisasjon>());
     const [organisasjonerMedTilgang, setOrganisasjonerMedTilgang] = useState<Array<Organisasjon> | null>(null);
-    const [tilgangArbeidsforholdState, setTilgangArbeidsforholdState] = useState(TILGANGSSTATE.LASTER);
+    const [tilgangState, setTilgangState] = useState(TILGANGSSTATE.LASTER);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon>(
         tomaAltinnOrganisasjon
     );
@@ -69,7 +69,7 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        setTilgangArbeidsforholdState(TILGANGSSTATE.LASTER);
+        setTilgangState(TILGANGSSTATE.LASTER);
         if (organisasjonerMedTilgang && valgtOrganisasjon !== tomaAltinnOrganisasjon) {
             if (
                 organisasjonerMedTilgang.filter((organisasjonMedTilgang) => {
@@ -79,13 +79,13 @@ const App = () => {
                     );
                 }).length >= 1
             ) {
-                setTilgangArbeidsforholdState(TILGANGSSTATE.TILGANG);
+                setTilgangState(TILGANGSSTATE.TILGANG);
             } else {
-                setTilgangArbeidsforholdState(TILGANGSSTATE.IKKE_TILGANG);
+                setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
             }
         }
         if (organisasjonerMedTilgang && organisasjonerMedTilgang.length === 0) {
-            setTilgangArbeidsforholdState(TILGANGSSTATE.IKKE_TILGANG);
+            setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
         }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
@@ -106,13 +106,13 @@ const App = () => {
                 )}
                 {organisasjonerLasteState === APISTATUS.OK ? (
                     <>
-                        {tilgangArbeidsforholdState !== TILGANGSSTATE.LASTER && (
+                        {tilgangState !== TILGANGSSTATE.LASTER && (
                             <>
                                 <Route exact path="/">
-                                    {tilgangArbeidsforholdState === TILGANGSSTATE.TILGANG && (
+                                    {tilgangState === TILGANGSSTATE.TILGANG && (
                                         <Skjema valgtOrganisasjon={valgtOrganisasjon} />
                                     )}
-                                    {tilgangArbeidsforholdState === TILGANGSSTATE.IKKE_TILGANG && (
+                                    {tilgangState === TILGANGSSTATE.IKKE_TILGANG && (
                                         <IngenTilgangInfo
                                             valgtOrganisasjon={valgtOrganisasjon}
                                             bedrifterMedTilgang={

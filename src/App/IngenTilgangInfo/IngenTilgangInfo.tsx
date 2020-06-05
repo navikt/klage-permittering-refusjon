@@ -20,7 +20,7 @@ const IngenTilgangInfo = ({ bedrifterMedTilgang, valgtOrganisasjon }: TilgangsIn
                 <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
                     Min side – arbeidsgiver
                 </Lenke>
-                {' / arbeidsforhold /'}
+                {' / klage-permittering-refusjon /'}
             </Normaltekst>
             <div className="ingen-tilgang">
                 <div className="ingen-tilgang-header">
@@ -63,17 +63,16 @@ const IngenTilgangInfo = ({ bedrifterMedTilgang, valgtOrganisasjon }: TilgangsIn
                     {(!bedrifterMedTilgang || bedrifterMedTilgang.length === 0) && (
                         <div className="ingen-tilgang-innhold__bedrifter-med-tilgang-panel">
                             <Normaltekst>
-                                Det finnes ingen virksomheter der du har rettigheter til å sende inn klage på vedtak.
+                                Du har ikke rettighetene som kreves for å sende inn klage på vegne av noen virksomheter
                             </Normaltekst>
                         </div>
                     )}
-
                     <Undertittel id="ingen-tilgang-innhold__panelinnhold-overskrift">
                         Denne enkelttjenesten i Altinn gir deg tilgang
                     </Undertittel>
 
                     <ul className="ingen-tilgang-innhold__panelinnhold" aria-labelledby="panelinnhold-overskrift">
-                        <li>Innsyn i Aa-registeret for arbeidsgivere</li>
+                        <li>Inntektsmelding</li>
                     </ul>
 
                     <div className="ingen-tilgang-innhold__lenker">
