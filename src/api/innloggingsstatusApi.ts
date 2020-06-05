@@ -1,3 +1,5 @@
+import {basename} from "../lenker";
+
 export interface Innloggingstatus {
     erInnlogget: boolean;
     harGyldigOidcToken: boolean;
@@ -8,7 +10,7 @@ export interface Innloggingstatus {
 
 export const hentInnloggingstatus = async(): Promise<Innloggingstatus> => {
     let responsBody = {} as Innloggingstatus;
-    const respons = await fetch('/klage-permittering-refusjon/veilarbstepup/status', {
+    const respons = await fetch(basename + '/veilarbstepup/status', {
         method: 'GET',
         credentials: 'include',
     });

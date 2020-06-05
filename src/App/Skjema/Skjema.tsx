@@ -4,9 +4,10 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { minSideArbeidsgiverUrl } from '../../lenker';
+import { Organisasjon } from '../../api/altinnApi';
+import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import './Skjema.less';
-import { sendKlage } from '../../api/klageApi';
 
 const erGyldigTelefonNr = (nr: string) => {
     const bestarAvSiffer = nr.match(/^[0-9]+$/);
@@ -30,7 +31,11 @@ const erGyldigEpost = (epost: string) => {
     return isValidEmail;
 };
 
-const Skjema = () => {
+interface Props {
+    valgtOrganisasjon: Organisasjon;
+}
+
+const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
@@ -63,9 +68,11 @@ const Skjema = () => {
                     Klage på vedtak for virksomhet
                 </Normaltekst>
                 <Normaltekst className="bedriftinfo-navn">
-                    GAMLE FREDRIKSTAD OG RIKSDALEN
+                    {valgtOrganisasjon.Name}
                 </Normaltekst>
-                <Normaltekst className="bedriftinfo-orgnr">Org.nr. 910 456 900</Normaltekst>
+                <Normaltekst className="bedriftinfo-orgnr">
+                    {`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}
+                </Normaltekst>
             </div>
 
             <div className="skjema__vedtakskode">
