@@ -10,6 +10,7 @@ import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble'
 import { SkjemaContext } from './skjemaContext';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import './Skjema.less';
+import { loggKlageSendtInn, loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
@@ -37,9 +38,8 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     ...context.skjema,
                 });
             } catch (e) {
-                if (e.response.status === 400) {
-                    setFeilmeldingSendInn('Du må fylle ut alle feltene');
-                }
+                setFeilmeldingSendInn('Du må fylle ut alle feltene');
+                loggKlageSendtMislyktes()
             }
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
     };

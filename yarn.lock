@@ -1517,6 +1517,11 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-7.2.1.tgz#2ad4e844175a3738cb9e7064be5ea070b8863a1c"
   integrity sha512-oZ0Ib5I4Z2pUEcoo95cT1cr6slco9WY7yiPpG+RGNkj8YcYgJnM7pXmYmorNOReh8MIGcKSqXyeGjxnr8YiZbA==
 
+"@types/amplitude-js@^5.11.0":
+  version "5.11.0"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-5.11.0.tgz#2d45f43e701d52407a5b57547a42d321c6d3c1b4"
+  integrity sha512-d+ELEiXtU8H/wVtmGPxTiPuyZW5HWEdKrOWGO99Y1eOvJuSLw3g/b6xlB9+snUOW5P8AYDhCHh8TzT6Vsz8jzQ==
+
 "@types/babel__core@^7.1.0":
   version "7.1.8"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.8.tgz#057f725aca3641f49fc11c7a87a9de5ec588a5d7"
@@ -2011,7 +2016,7 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amplitude-js@^6.1.0-debug-cookie.1:
+amplitude-js@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-6.2.0.tgz#fc5d3b4d0cecd8f4b17d8d9770f13ed565aaaea0"
   integrity sha512-l+00XubD0ZJHcWUBMzV6JrtXs1JhsqO/qGoDbYLtljtgup/cCclOAuirwQJMtYLRP6vEmstGjZtq1Ew9nWnzug==

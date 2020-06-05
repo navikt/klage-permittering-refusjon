@@ -10,14 +10,13 @@ import {
 } from '../api/altinnApi';
 import { basename } from '../lenker';
 import { APISTATUS } from '../api/api-utils';
-import environment from '../utils/environment';
-import { opprett } from '../api/klagePermitteringRefusjonApi';
 import LoginBoundary from './LogInn/LoginBoundary';
 import HovedBanner from './HovedBanner/HovedBanner';
 import Skjema from './Skjema/Skjema';
 import Kvitteringsside from './Kvitteringsside/Kvitteringsside';
 import IngenTilgangInfo from './IngenTilgangInfo/IngenTilgangInfo';
 import './App.less';
+import { loggBrukerLoggetPa } from '../utils/amplitudefunksjonerForLogging';
 import { SkjemaContextProvider } from './Skjema/skjemaContext';
 
 enum TILGANGSSTATE {
@@ -36,7 +35,7 @@ const App = () => {
     const [organisasjonerMedTilgang, setOrganisasjonerMedTilgang] = useState<Array<
         Organisasjon
     > | null>(null);
-    const [tilgangArbeidsforholdState, setTilgangArbeidsforholdState] = useState(
+    const [tilgangState, setTilgangState] = useState(
         TILGANGSSTATE.LASTER
     );
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon>(
@@ -77,7 +76,7 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        setTilgangArbeidsforholdState(TILGANGSSTATE.LASTER);
+        setTilgangState(TILGANGSSTATE.LASTER);
         if (organisasjonerMedTilgang && valgtOrganisasjon !== tomaAltinnOrganisasjon) {
             if (
                 organisasjonerMedTilgang.filter((organisasjonMedTilgang) => {
@@ -87,21 +86,19 @@ const App = () => {
                     );
                 }).length >= 1
             ) {
-                setTilgangArbeidsforholdState(TILGANGSSTATE.TILGANG);
+                setTilgangState(TILGANGSSTATE.TILGANG);
             } else {
-                setTilgangArbeidsforholdState(TILGANGSSTATE.IKKE_TILGANG);
+                setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
             }
         }
         if (organisasjonerMedTilgang && organisasjonerMedTilgang.length === 0) {
-            setTilgangArbeidsforholdState(TILGANGSSTATE.IKKE_TILGANG);
+            setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
         }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
-    useEffect(() => {
-        if (environment.MILJO) {
-            opprett('jeg vil klage');
-        }
-    });
+    useEffect( () => {
+       loggBrukerLoggetPa();
+    })
 
     return (
         <LoginBoundary>
@@ -117,13 +114,13 @@ const App = () => {
                     )}
                     {organisasjonerLasteState === APISTATUS.OK ? (
                         <>
-                            {tilgangArbeidsforholdState !== TILGANGSSTATE.LASTER && (
+                            {tilgangState !== TILGANGSSTATE.LASTER && (
                                 <>
                                     <Route exact path="/">
-                                        {tilgangArbeidsforholdState === TILGANGSSTATE.TILGANG && (
+                                        {tilgangState === TILGANGSSTATE.TILGANG && (
                                             <Skjema valgtOrganisasjon={valgtOrganisasjon} />
                                         )}
-                                        {tilgangArbeidsforholdState ===
+                                        {tilgangState ===
                                             TILGANGSSTATE.IKKE_TILGANG && (
                                             <IngenTilgangInfo
                                                 valgtOrganisasjon={valgtOrganisasjon}
