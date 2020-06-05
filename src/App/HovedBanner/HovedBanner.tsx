@@ -14,20 +14,20 @@ interface Props extends RouteComponentProps {
 const Banner: FunctionComponent<Props> = (props) => {
     const { history } = props;
 
-    const sjekkOmBrukerErPaaEnkeltArbeidsforholdSide = (organisasjon: Organisasjon) => {
+    const sjekkOmBrukerErPaaKvitteringsSide = (organisasjon: Organisasjon) => {
         const url = window.location.href;
-        if (url.indexOf('/enkeltarbeidsforhold') >= 0) {
-            redirectTilListeVisning(organisasjon);
+        if (url.indexOf('/kvitteringsside') >= 0) {
+            redirectTilSkjemaside(organisasjon);
         }
     };
 
-    const redirectTilListeVisning = (organisasjon: Organisasjon) => {
+    const redirectTilSkjemaside = (organisasjon: Organisasjon) => {
         window.location.href = basename + '/?bedrift=' + organisasjon.OrganizationNumber;
     };
 
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
         if (organisasjon) {
-            sjekkOmBrukerErPaaEnkeltArbeidsforholdSide(organisasjon);
+            sjekkOmBrukerErPaaKvitteringsSide(organisasjon);
             props.byttOrganisasjon(organisasjon);
         }
     };
