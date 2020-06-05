@@ -1,81 +1,53 @@
 import React, { useContext, useState } from 'react';
 import Lenke from 'nav-frontend-lenker';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { minSideArbeidsgiverUrl } from '../../lenker';
 import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
+import { SkjemaContext } from './skjemaContext';
+import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import './Skjema.less';
-import { skjemaContext, SkjemaState } from './skjemaContext';
-
-const erGyldigTelefonNr = (nr: string) => {
-    const bestarAvSiffer = nr.match(/^[0-9]+$/);
-    const erStandard = nr.match(/^[0-9]+$/) != null && nr.length === 8;
-    const begynnerMed0047 = nr.substring(0, 4) === '0047' && bestarAvSiffer && nr.length === 12;
-    const begynnerMedPluss =
-        nr.substr(0, 3) === '+47' &&
-        nr.length === 11 &&
-        nr.substring(3, 11).match(/^[0-9]+$/) != null;
-    return erStandard || begynnerMed0047 || begynnerMedPluss;
-};
-
-const erGyldigEpost = (epost: string) => {
-    // kilde for regex https://emailregex.com (RFC 5322 Official Standard)
-    const regexp = new RegExp(
-        // eslint-disable-next-line no-useless-escape
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-    const isValidEmail = regexp.test(epost);
-
-    return isValidEmail;
-};
-
-const erSkjemaGyldig = (skjema: SkjemaState): boolean => {
-    return (
-        erGyldigTelefonNr(skjema.telefonnr) &&
-        erGyldigEpost(skjema.epost) &&
-        erIkkeTomString(skjema.telefonnr) &&
-        erIkkeTomString(skjema.epost) &&
-        erIkkeTomString(skjema.tekst) &&
-        erIkkeTomString(skjema.referansekode) &&
-        erIkkeTomString(skjema.navn)
-    );
-};
-
-const erIkkeTomString = (str: string) => str !== '' && !!str;
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
 }
 
 const Skjema = ({ valgtOrganisasjon }: Props) => {
+    const context = useContext(SkjemaContext);
+    const [feilmeldingSendInn, setFeilmeldingSendInn] = useState('');
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
-    const { skjema, setSkjema } = useContext(skjemaContext);
-    console.log(skjema, setSkjema);
+    // console.log(skjema, setSkjema);
 
-    // TODO Populer med data fra skjema
     const onSendInnClick = async () => {
-        if (erSkjemaGyldig(skjema)) {
-            console.log(
+        const thisKnapp = document.getElementById('send-inn-hovedknapp');
+        thisKnapp && thisKnapp.setAttribute('disabled', 'disabled');
+        setFeilmeldingSendInn('');
+
+        if (erSkjemaGyldig(context.skjema)) {
+            try {
                 await sendKlage({
                     orgnr: valgtOrganisasjon.OrganizationNumber,
-                    ...skjema,
-                })
-            );
-        }
-        // TODO Vise mld hvis ugyldig skjema, og finne ut hva som skal skje hvis kallet feiler
+                    ...context.skjema,
+                });
+            } catch (e) {
+                if (e.response.status === 400) {
+                    setFeilmeldingSendInn('Du må fylle ut alle feltene');
+                }
+            }
+        } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
     };
 
     return (
         <div className="skjema">
             <Normaltekst className="brodsmule">
-                <Lenke href={minSideArbeidsgiverUrl('12345678')}>Min side – arbeidsgiver</Lenke>
+                <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>Min side – arbeidsgiver</Lenke>
                 {' / Klage på vedtak for refusjon ved permittering'}
             </Normaltekst>
 
@@ -96,12 +68,9 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     className="skjema__input-felt"
                     label="Referansekode for vedtak"
                     description="Du finner referansekoden øverst på vedtaket du fikk i Altinn. Kopier og lim inn her."
-                    value={skjema.referansekode}
-                    onChange={(event) =>
-                        setSkjema({
-                            ...skjema,
-                            referansekode: event.target.value,
-                        })
+                    value={context.skjema.referansekode}
+                    onChange={(event: any) =>
+                        context.settSkjemaVerdi('referansekode', event.currentTarget.value)
                     }
                 />
             </div>
@@ -110,13 +79,10 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Textarea
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
-                    value={skjema.tekst}
+                    value={context.skjema.tekst}
                     maxLength={1000}
-                    onChange={(event) =>
-                        setSkjema({
-                            ...skjema,
-                            tekst: event.target.value,
-                        })
+                    onChange={(event: any) =>
+                        context.settSkjemaVerdi('tekst', event.currentTarget.value)
                     }
                 />
             </div>
@@ -128,67 +94,74 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Input
                     className="skjema__input-felt navn"
                     label="Navn"
-                    value={skjema.navn}
-                    onChange={(event) =>
-                        setSkjema({
-                            ...skjema,
-                            navn: event.target.value,
-                        })
+                    value={context.skjema.navn}
+                    onChange={(event: any) =>
+                        context.settSkjemaVerdi('navn', event.currentTarget.value)
                     }
                 />
                 <Input
                     className="skjema__input-felt epost"
                     label="E-post"
-                    value={skjema.epost}
+                    value={context.skjema.epost}
                     feil={feilMeldingEpost}
-                    onBlur={(event) => {
+                    onBlur={(event: any) => {
                         if (erGyldigEpost(event.currentTarget.value)) {
-                            // context.endreSkjemaVerdi('kontaktEpost', event.currentTarget.value);
+                            context.settSkjemaVerdi('epost', event.currentTarget.value);
                             setFeilmeldingEpost('');
                         } else {
                             setFeilmeldingEpost('Vennligst oppgi en gyldig e-post');
                         }
                     }}
-                    onChange={(event) => {
+                    onChange={(event: any) => {
                         setFeilmeldingEpost('');
-                        setSkjema({
-                            ...skjema,
-                            epost: event.target.value,
-                        });
+                        context.settSkjemaVerdi('epost', event.currentTarget.value);
                     }}
                 />
                 <Input
                     className="skjema__input-felt"
                     label="Telefonnummer"
-                    value={skjema.telefonnr}
+                    value={context.skjema.telefonnr}
                     feil={feilMeldingTelefonNr}
                     onBlur={(event: any) => {
                         if (erGyldigTelefonNr(event.currentTarget.value)) {
-                            // const telefonNummer = event.currentTarget.value;
+                            const telefonNummer = event.currentTarget.value;
 
-                            /* const riktigFormat = telefonNummer.substr(
+                            const riktigFormat = telefonNummer.substr(
                                 telefonNummer.length - 8,
                                 telefonNummer.length
-                            ); */
-
-                            // context.endreSkjemaVerdi('kontaktTlf', riktigFormat);
+                            );
+                            context.settSkjemaVerdi('telefonnr', riktigFormat);
                             setFeilmeldingTelefonNr('');
                         } else setFeilmeldingTelefonNr('Vennligst oppgi et gyldig telefonnummer');
                     }}
-                    onChange={(event) => {
+                    onChange={(event: any) => {
                         setFeilmeldingTelefonNr('');
-                        setSkjema({
-                            ...skjema,
-                            telefonnr: event.target.value,
-                        });
+                        context.settSkjemaVerdi('telefonnr', event.currentTarget.value);
                     }}
                 />
             </div>
 
             <div className="skjema__knapper">
-                <Hovedknapp onClick={onSendInnClick}>Send inn klage</Hovedknapp>
-                <Flatknapp onClick={() => {}}>Avbryt</Flatknapp>
+                <Hovedknapp
+                    onClick={onSendInnClick}
+                    id="send-inn-hovedknapp"
+                    className="skjema-innhold__lagre"
+                >
+                    Send inn klage
+                </Hovedknapp>
+                <Flatknapp
+                    onClick={() => {
+                        context.avbryt();
+                    }}
+                >
+                    Avbryt
+                </Flatknapp>
             </div>
+            {feilmeldingSendInn && (
+                <div className="feilmelding-send-inn">
+                    <Feilmelding>{feilmeldingSendInn}</Feilmelding>
+                </div>
+            )}
         </div>
     );
 };

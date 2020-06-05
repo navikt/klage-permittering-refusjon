@@ -1,6 +1,6 @@
 import React, { createContext, FunctionComponent, useState } from 'react';
 
-export interface SkjemaState {
+export interface Klageskjema {
     referansekode: string;
     tekst: string;
     navn: string;
@@ -8,12 +8,7 @@ export interface SkjemaState {
     telefonnr: string;
 }
 
-interface SkjemaContext {
-    skjema: SkjemaState;
-    setSkjema: (state: SkjemaState) => void;
-}
-
-const tomtSkjema: SkjemaState = {
+const tomtSkjema: Klageskjema = {
     referansekode: '',
     tekst: '',
     navn: '',
@@ -21,17 +16,26 @@ const tomtSkjema: SkjemaState = {
     telefonnr: '',
 };
 
-const defaultSkjemaContext = {
-    skjema: tomtSkjema,
-    setSkjema: (state: SkjemaState) => {},
-};
+interface SkjemaContext {
+    skjema: Klageskjema;
+    settSkjemaVerdi: (felt: keyof Klageskjema, verdi: any) => void;
+    avbryt: () => void;
+}
 
-export const skjemaContext = createContext<SkjemaContext>(defaultSkjemaContext);
+export const SkjemaContext = createContext<SkjemaContext>({} as SkjemaContext);
 
 export const SkjemaContextProvider: FunctionComponent = (props) => {
-    const ContextProvider = skjemaContext.Provider;
+    const ContextProvider = SkjemaContext.Provider;
+    const [skjema, setSkjema] = useState<Klageskjema>(tomtSkjema);
 
-    const [skjema, setSkjema] = useState<SkjemaState>(tomtSkjema);
-
-    return <ContextProvider value={{ skjema, setSkjema }}>{props.children}</ContextProvider>;
+    const context: SkjemaContext = {
+        settSkjemaVerdi: (felt, verdi) => {
+            setSkjema({ ...skjema, [felt]: verdi });
+        },
+        avbryt: () => {
+            setSkjema(tomtSkjema);
+        },
+        skjema,
+    };
+    return <ContextProvider value={context}>{props.children}</ContextProvider>;
 };
