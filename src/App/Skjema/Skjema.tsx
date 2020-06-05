@@ -10,7 +10,12 @@ import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble'
 import { SkjemaContext } from './skjemaContext';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import './Skjema.less';
-import { loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
+import {
+    loggAntallTegn,
+    loggBrukerBrukerForMangeTegn,
+    loggKlageSendtInn,
+    loggKlageSendtMislyktes,
+} from '../../utils/amplitudefunksjonerForLogging';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
@@ -21,6 +26,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilmeldingSendInn, setFeilmeldingSendInn] = useState('');
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
+
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
@@ -37,6 +43,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     orgnr: valgtOrganisasjon.OrganizationNumber,
                     ...context.skjema,
                 });
+                loggKlageSendtInn()
             } catch (e) {
                 setFeilmeldingSendInn('Du må fylle ut alle feltene');
                 loggKlageSendtMislyktes()
@@ -81,9 +88,13 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     description="Ikke del sensitive opplysninger her."
                     value={context.skjema.tekst}
                     maxLength={4000}
-                    onChange={(event: any) =>
+                    onChange={(event: any) =>{
+                        if (event.currentTarget.value.length > 4000) {
+                        loggBrukerBrukerForMangeTegn()
+                        }
                         context.settSkjemaVerdi('tekst', event.currentTarget.value)
-                    }
+                    }}
+                    onBlur={(event) => {loggAntallTegn(event.currentTarget.value.length)}}
                 />
             </div>
 
