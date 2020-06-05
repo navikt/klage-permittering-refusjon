@@ -45,12 +45,12 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const onSendInnClick = async () =>
         console.log(
             await sendKlage({
-                orgnr: '910825569',
-                referansekode: '4fw45',
-                navn: 'Geir Geirsen',
-                epost: 'geir@geir.no',
-                telefonnr: '16134623',
-                tekst: 'Min klage',
+                orgnr: valgtOrganisasjon.OrganizationNumber,
+                referansekode: 'Testreferanse',
+                navn: 'Test Testesen',
+                epost: 'test@test.no',
+                telefonnr: '12345678',
+                tekst: 'Dette er en testklage.',
             })
         );
 
