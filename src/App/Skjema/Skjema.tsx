@@ -100,7 +100,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
                     value=""
-                    maxLength={1000}
+                    maxLength={4000}
                     onChange={() => {}}
                 />
             </div>
