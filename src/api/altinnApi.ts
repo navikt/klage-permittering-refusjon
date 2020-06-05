@@ -22,7 +22,6 @@ export const tomaAltinnOrganisasjon: Organisasjon = {
 export async function hentOrganisasjonerFraAltinn(signal: any): Promise<Organisasjon[]> {
     let respons = await fetch(basename + '/api/organisasjoner', { signal: signal });
     if (respons.ok) {
-        console.log('organisasjoner Altinn:', respons);
         return await respons.json();
     } else {
         throw new FetchError(respons.statusText || respons.type, respons);
@@ -35,14 +34,10 @@ export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     signal: any
 ): Promise<Organisasjon[]> {
     let respons = await fetch(
-        basename + '/api/rettigheter-til-skjema/?serviceKode=' +
-            serviceKode +
-            '&serviceEdition=' +
-            serviceEdition,
+        basename + '/api/organisasjoner/refusjon',
         { signal: signal }
     );
     if (respons.ok) {
-        console.log('tilgangAltinn:', respons);
         return await respons.json();
     } else {
         throw new FetchError(respons.statusText || respons.type, respons);
