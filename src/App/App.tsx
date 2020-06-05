@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import LoginBoundary from './LogInn/LoginBoundary';
 import Skjema from './Skjema/Skjema';
 import Kvitteringsside from './Kvitteringsside/Kvitteringsside';
 import './App.less';
 
+import environment from '../utils/environment';
+import { opprett } from '../api/klagePermitteringRefusjonApi';
+
+
+
 const App = () => {
+    useEffect( () => {
+        if (environment.MILJO) {
+            opprett('jeg vil klage')
+        }
+
+    })
+
     return (
         <LoginBoundary>
             <BrowserRouter basename="/klage-permittering-refusjon">
