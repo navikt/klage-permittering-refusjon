@@ -24,8 +24,8 @@ enum TILGANGSSTATE {
 }
 
 const App = () => {
-    const SERVICEKODEINNSYNAAREGISTERET = '5441';
-    const SERVICEEDITIONINNSYNAAREGISTERET = '1';
+    const SERVICEKODEINNTEKTSMELDING = '4936';
+    const SERVICEEDITIONINNTEKTSMELDING = '1';
     const [organisasjonerLasteState, setOrganisasjonerLasteState] = useState<APISTATUS>(APISTATUS.LASTER);
     const [organisasjoner, setorganisasjoner] = useState(Array<Organisasjon>());
     const [organisasjonerMedTilgang, setOrganisasjonerMedTilgang] = useState<Array<Organisasjon> | null>(null);
@@ -47,8 +47,8 @@ const App = () => {
                     )
                 );
                 hentOrganisasjonerMedTilgangTilAltinntjeneste(
-                    SERVICEKODEINNSYNAAREGISTERET,
-                    SERVICEEDITIONINNSYNAAREGISTERET,
+                    SERVICEKODEINNTEKTSMELDING,
+                    SERVICEEDITIONINNTEKTSMELDING,
                     signal
                 )
                     .then((organisasjonerMedTilgangFraAltinn) => {
