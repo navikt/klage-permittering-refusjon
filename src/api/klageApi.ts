@@ -10,7 +10,7 @@ interface Klage {
 }
 
 export const sendKlage = async (data: Klage) => {
-    const respons = await fetch(`${basename}/klage-permittering-refusjon/api/${data.orgnr}/klage`, {
+    const respons = await fetch(`${basename}/api/${data.orgnr}/klage`, {
         method: 'POST',
         credentials: 'include',
         body: JSON.stringify(data),
