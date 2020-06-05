@@ -2,6 +2,7 @@
 
 .skjema {
     margin: 0 1rem;
+    padding-bottom: 3rem;
 
     @media (min-width: @screen-sm) {
         width: 41rem;
@@ -42,10 +43,18 @@
     }
 
     &__knapper {
-        padding: 2rem 0 3rem;
+        padding-top: 2rem;
 
         @media (min-width: @screen-sm) {
-            padding: 1rem 0 3rem;
+            padding-top: 1rem;
+
+            .send-inn-knapp {
+                margin-right: 1rem;
+            }
         }
+    }
+
+    .feilmelding-send-inn {
+        margin-top: 1rem;
     }
 }

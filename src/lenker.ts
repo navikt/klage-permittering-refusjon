@@ -23,7 +23,7 @@ export const backendUrl = () => {
     if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
         return '/klage-permittering-refusjon/api/'
     } else {
-        return 'http://localhost:8080/klage-permittering-refusjon-api/'
+        return 'http://localhost:3000/klage-permittering-refusjon/api/'
     }
 
 };
