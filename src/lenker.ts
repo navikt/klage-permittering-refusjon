@@ -19,6 +19,11 @@ export const minSideArbeidsgiverUrl = (orgnr: string) => {
     }
 };
 
-export const testLenkeBackend = () => {
-    return '/klage-permittering-refusjon/api/klage'
+export const backendUrl = () => {
+    if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
+        return '/klage-permittering-refusjon/api/'
+    } else {
+        return 'http://localhost:8080/klage-permittering-refusjon-api/'
+    }
+
 };

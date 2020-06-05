@@ -11,8 +11,8 @@ export const redirectTilLogin = () => {
     if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
         window.location.href = basename + '/redirect-til-login';
     } else {
-        document.cookie = 'selvbetjening-idtoken=0123456789..*; path=/;';
-        window.location.href = basename;
+        //document.cookie = 'selvbetjening-idtoken=0123456789..*; path=/;';
+        window.location.href = 'http://localhost:8080/klage-permittering-refusjon-api/local/cookie?redirect=http://localhost:3000/klage-permittering-refusjon'
     }
 };
 

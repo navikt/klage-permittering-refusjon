@@ -13,7 +13,7 @@ const LoginBoundary: FunctionComponent = (props) => {
     const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
     function localLogin() {
-        if (document.cookie.includes('selvbetjening-idtoken')) {
+        if (document.cookie.includes('localhost-idtoken')) {
             setInnlogget(Tilgang.TILGANG);
         } else {
             setInnlogget(Tilgang.IKKE_TILGANG);

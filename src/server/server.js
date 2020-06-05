@@ -23,7 +23,7 @@ createEnvSettingsFile(path.resolve(`${buildPath}/static/js/settings.js`));
 
 server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
     const loginUrl = process.env.LOGIN_URL ||
-        'http://localhost:8080/klage-permittering-refusjon-api/local/selvbetjening-login?redirect=http://localhost:3000/klage-permittering-refusjon';
+        'http://localhost:8080/klage-permittering-refusjon-api/local/cookie?redirect=http://localhost:3000/klage-permittering-refusjon';
     res.redirect(loginUrl);
 });
 
