@@ -8,7 +8,12 @@ import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import './Skjema.less';
-import { loggKlageSendtInn, loggKlageSendtMislyktes } from '../../utils/amplitudefunksjonerForLogging';
+import {
+    loggAntallTegn,
+    loggBrukerBrukerForMangeTegn,
+    loggKlageSendtInn,
+    loggKlageSendtMislyktes,
+} from '../../utils/amplitudefunksjonerForLogging';
 
 const erGyldigTelefonNr = (nr: string) => {
     const bestarAvSiffer = nr.match(/^[0-9]+$/);
@@ -39,6 +44,8 @@ interface Props {
 const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
+
+    const [inputFritekst, setInputFritekst] = useState('')
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
@@ -97,11 +104,18 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
 
             <div className="skjema__beskrivelse">
                 <Textarea
+                    value={inputFritekst}
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
-                    value=""
+                    defaultValue=""
                     maxLength={4000}
-                    onChange={() => {}}
+                    onChange={(event) => {
+                        setInputFritekst(event.currentTarget.value)
+                        if (event.currentTarget.value.length > 4000) {
+                            loggBrukerBrukerForMangeTegn()
+                        }
+                    }}
+                    onBlur={(event) => {loggAntallTegn(event.currentTarget.value.length)}}
                 />
             </div>
 
