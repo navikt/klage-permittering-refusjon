@@ -4,7 +4,8 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, Textarea } from 'nav-frontend-skjema';
 import { minSideArbeidsgiverUrl } from '../../lenker';
-import VeilederSnakkeboble from "../Komponenter/Snakkeboble/VeilederSnakkeboble";
+import { Organisasjon } from '../../api/altinnApi';
+import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import './Skjema.less';
 
 const erGyldigTelefonNr = (nr: string) => {
@@ -29,11 +30,14 @@ const erGyldigEpost = (epost: string) => {
     return isValidEmail;
 };
 
-const Skjema = () => {
+interface Props {
+    valgtOrganisasjon: Organisasjon;
+}
+
+const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
-    const snakkebobletekst =
-        `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
+    const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
     return (
@@ -50,9 +54,11 @@ const Skjema = () => {
                     Klage på vedtak for virksomhet
                 </Normaltekst>
                 <Normaltekst className="bedriftinfo-navn">
-                    GAMLE FREDRIKSTAD OG RIKSDALEN
+                    {valgtOrganisasjon.Name}
                 </Normaltekst>
-                <Normaltekst className="bedriftinfo-orgnr">Org.nr. 910 456 900</Normaltekst>
+                <Normaltekst className="bedriftinfo-orgnr">
+                    {`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}
+                </Normaltekst>
             </div>
 
             <div className="skjema__vedtakskode">

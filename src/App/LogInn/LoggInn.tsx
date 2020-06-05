@@ -5,15 +5,16 @@ import Lenke from 'nav-frontend-lenker';
 import environment from '../../utils/environment';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import './Logginn.less';
+import {basename} from "../../lenker";
 
 export const LoggInn: FunctionComponent = () => {
 
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-            window.location.href = '/klage-permittering-refusjon/redirect-til-login';
+            window.location.href = basename + '/redirect-til-login';
         } else {
             document.cookie = 'selvbetjening-idtoken=0123456789..*; path=/;';
-            window.location.href = '/klage-permittering-refusjon';
+            window.location.href = basename;
         }
     };
 
