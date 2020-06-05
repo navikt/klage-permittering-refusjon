@@ -15,7 +15,7 @@ fetchMock
 
 fetchMock
     .get(
-        basename + '/api/rettigheter-til-skjema/?serviceKode=5441&serviceEdition=1',
+        basename + '/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
         delay.then(() => {
             return tilgangTilAtinntjenesteRespons;
         })
