@@ -1,4 +1,4 @@
-import {backendUrl} from '../lenker';
+import { backendUrl } from '../lenker';
 
 interface Klage {
     orgnr: string;
@@ -10,7 +10,7 @@ interface Klage {
 }
 
 export const sendKlage = async (data: Klage) => {
-    const backendurl:string =backendUrl();
+    const backendurl: string = backendUrl();
     const respons = await fetch(`${backendurl}${data.orgnr}/klage`, {
         method: 'POST',
         credentials: 'include',

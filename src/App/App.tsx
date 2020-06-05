@@ -35,9 +35,7 @@ const App = () => {
     const [organisasjonerMedTilgang, setOrganisasjonerMedTilgang] = useState<Array<
         Organisasjon
     > | null>(null);
-    const [tilgangState, setTilgangState] = useState(
-        TILGANGSSTATE.LASTER
-    );
+    const [tilgangState, setTilgangState] = useState(TILGANGSSTATE.LASTER);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon>(
         tomaAltinnOrganisasjon
     );
@@ -96,9 +94,9 @@ const App = () => {
         }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
-    useEffect( () => {
-       loggBrukerLoggetPa();
-    })
+    useEffect(() => {
+        loggBrukerLoggetPa();
+    });
 
     return (
         <LoginBoundary>
@@ -120,8 +118,7 @@ const App = () => {
                                         {tilgangState === TILGANGSSTATE.TILGANG && (
                                             <Skjema valgtOrganisasjon={valgtOrganisasjon} />
                                         )}
-                                        {tilgangState ===
-                                            TILGANGSSTATE.IKKE_TILGANG && (
+                                        {tilgangState === TILGANGSSTATE.IKKE_TILGANG && (
                                             <IngenTilgangInfo
                                                 valgtOrganisasjon={valgtOrganisasjon}
                                                 bedrifterMedTilgang={
@@ -139,7 +136,7 @@ const App = () => {
                                         )}
                                     </Route>
                                     <Route exact path="/kvitteringsside">
-                                        <Kvitteringsside />
+                                        <Kvitteringsside valgtOrganisasjon={valgtOrganisasjon} />
                                     </Route>
                                 </>
                             )}

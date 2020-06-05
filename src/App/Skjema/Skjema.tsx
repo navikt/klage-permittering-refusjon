@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Lenke from 'nav-frontend-lenker';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
@@ -9,13 +10,13 @@ import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import { SkjemaContext } from './skjemaContext';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
-import './Skjema.less';
 import {
     loggAntallTegn,
     loggBrukerBrukerForMangeTegn,
     loggKlageSendtInn,
     loggKlageSendtMislyktes,
 } from '../../utils/amplitudefunksjonerForLogging';
+import './Skjema.less';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
@@ -23,14 +24,13 @@ interface Props {
 
 const Skjema = ({ valgtOrganisasjon }: Props) => {
     const context = useContext(SkjemaContext);
+    const history = useHistory();
     const [feilmeldingSendInn, setFeilmeldingSendInn] = useState('');
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
 
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
-
-    // console.log(skjema, setSkjema);
 
     const onSendInnClick = async () => {
         const thisKnapp = document.getElementById('send-inn-hovedknapp');
@@ -39,14 +39,17 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
 
         if (erSkjemaGyldig(context.skjema)) {
             try {
-                await sendKlage({
-                    orgnr: valgtOrganisasjon.OrganizationNumber,
-                    ...context.skjema,
-                });
-                loggKlageSendtInn()
+                console.log(
+                    await sendKlage({
+                        orgnr: valgtOrganisasjon.OrganizationNumber,
+                        ...context.skjema,
+                    })
+                );
+                loggKlageSendtInn();
+                history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
             } catch (e) {
                 setFeilmeldingSendInn('Du må fylle ut alle feltene');
-                loggKlageSendtMislyktes()
+                loggKlageSendtMislyktes();
             }
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
     };
@@ -54,7 +57,9 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     return (
         <div className="skjema">
             <Normaltekst className="brodsmule">
-                <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>Min side – arbeidsgiver</Lenke>
+                <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
+                    Min side – arbeidsgiver
+                </Lenke>
                 {' / Klage på vedtak for refusjon ved permittering'}
             </Normaltekst>
 
@@ -88,13 +93,15 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     description="Ikke del sensitive opplysninger her."
                     value={context.skjema.tekst}
                     maxLength={4000}
-                    onChange={(event: any) =>{
+                    onChange={(event: any) => {
                         if (event.currentTarget.value.length > 4000) {
-                        loggBrukerBrukerForMangeTegn()
+                            loggBrukerBrukerForMangeTegn();
                         }
-                        context.settSkjemaVerdi('tekst', event.currentTarget.value)
+                        context.settSkjemaVerdi('tekst', event.currentTarget.value);
                     }}
-                    onBlur={(event) => {loggAntallTegn(event.currentTarget.value.length)}}
+                    onBlur={(event) => {
+                        loggAntallTegn(event.currentTarget.value.length);
+                    }}
                 />
             </div>
 
@@ -156,13 +163,16 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Hovedknapp
                     onClick={onSendInnClick}
                     id="send-inn-hovedknapp"
-                    className="skjema-innhold__lagre"
+                    className="send-inn-knapp"
                 >
                     Send inn klage
                 </Hovedknapp>
                 <Flatknapp
                     onClick={() => {
                         context.avbryt();
+                        setFeilmeldingSendInn('');
+                        setFeilmeldingEpost('');
+                        setFeilmeldingTelefonNr('');
                     }}
                 >
                     Avbryt
