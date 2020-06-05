@@ -1,6 +1,6 @@
 import React, { createContext, FunctionComponent, useState } from 'react';
 
-interface SkjemaState {
+export interface SkjemaState {
     referansekode: string;
     tekst: string;
     navn: string;

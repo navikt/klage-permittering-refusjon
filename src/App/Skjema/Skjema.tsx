@@ -8,7 +8,7 @@ import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import './Skjema.less';
-import { skjemaContext } from './skjemaContext';
+import { skjemaContext, SkjemaState } from './skjemaContext';
 
 const erGyldigTelefonNr = (nr: string) => {
     const bestarAvSiffer = nr.match(/^[0-9]+$/);
@@ -32,6 +32,20 @@ const erGyldigEpost = (epost: string) => {
     return isValidEmail;
 };
 
+const erSkjemaGyldig = (skjema: SkjemaState): boolean => {
+    return (
+        erGyldigTelefonNr(skjema.telefonnr) &&
+        erGyldigEpost(skjema.epost) &&
+        erIkkeTomString(skjema.telefonnr) &&
+        erIkkeTomString(skjema.epost) &&
+        erIkkeTomString(skjema.tekst) &&
+        erIkkeTomString(skjema.referansekode) &&
+        erIkkeTomString(skjema.navn)
+    );
+};
+
+const erIkkeTomString = (str: string) => str !== '' && !!str;
+
 interface Props {
     valgtOrganisasjon: Organisasjon;
 }
@@ -46,17 +60,17 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     console.log(skjema, setSkjema);
 
     // TODO Populer med data fra skjema
-    const onSendInnClick = async () =>
-        console.log(
-            await sendKlage({
-                orgnr: valgtOrganisasjon.OrganizationNumber,
-                referansekode: 'Testreferanse',
-                navn: 'Test Testesen',
-                epost: 'test@test.no',
-                telefonnr: '12345678',
-                tekst: 'Dette er en testklage.',
-            })
-        );
+    const onSendInnClick = async () => {
+        if (erSkjemaGyldig(skjema)) {
+            console.log(
+                await sendKlage({
+                    orgnr: valgtOrganisasjon.OrganizationNumber,
+                    ...skjema,
+                })
+            );
+        }
+        // TODO Vise mld hvis ugyldig skjema, og finne ut hva som skal skje hvis kallet feiler
+    };
 
     return (
         <div className="skjema">
