@@ -33,11 +33,10 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
     const onSendInnClick = async () => {
-        const thisKnapp = document.getElementById('send-inn-hovedknapp');
-        thisKnapp && thisKnapp.setAttribute('disabled', 'disabled');
-        setFeilmeldingSendInn('');
-
         if (erSkjemaGyldig(context.skjema)) {
+            const thisKnapp = document.getElementById('send-inn-hovedknapp');
+            thisKnapp && thisKnapp.setAttribute('disabled', 'disabled');
+            setFeilmeldingSendInn('');
             try {
                 console.log(
                     await sendKlage({
