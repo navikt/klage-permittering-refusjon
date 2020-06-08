@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Lenke from 'nav-frontend-lenker';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import { Flatknapp } from 'nav-frontend-knapper';
@@ -21,6 +21,10 @@ const Kvitteringsside = ({ valgtOrganisasjon }: Props) => {
          behandlet klagen din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
 
     const orgNr = valgtOrganisasjon.OrganizationNumber;
+
+    useEffect( () => {
+        window.scrollTo(0, 0);
+    })
 
     return (
         <div className="kvitteringsside">
