@@ -4,16 +4,23 @@ body {
     margin: 0;
 }
 
-#root {
+.app {
     min-height: 100vh;
     background-color: @navLysGra;
-}
 
-.feilmelding-altinn {
-    padding: 2.5rem 1rem;
-    @media (min-width: @screen-sm) {
-        max-width: 49.5rem;
-        padding: 2.5rem 2rem;
-        margin: 0 auto;
+    button {
+        font-family: 'Source Sans Pro', Arial, sans-serif !important;
+        font-size: 1rem !important;
+    }
+
+    .feilmelding-altinn {
+        padding: 2.5rem 1rem;
+        @media (min-width: @screen-sm) {
+            max-width: 49.5rem;
+            padding: 2.5rem 2rem;
+            margin: 0 auto;
+        }
     }
 }
+
+
