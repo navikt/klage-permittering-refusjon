@@ -172,6 +172,9 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                         setFeilmeldingSendInn('');
                         setFeilmeldingEpost('');
                         setFeilmeldingTelefonNr('');
+                        window.location.href = minSideArbeidsgiverUrl(
+                            valgtOrganisasjon.OrganizationNumber
+                        );
                     }}
                 >
                     Avbryt
