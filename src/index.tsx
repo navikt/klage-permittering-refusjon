@@ -12,6 +12,7 @@ if (process.env.REACT_APP_MOCK) {
     console.log('==========================================');
 
     require('./mock/altinnMock');
+    require('./mock/klageMock');
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));

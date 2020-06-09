@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import {
@@ -16,8 +16,9 @@ import Skjema from './Skjema/Skjema';
 import Kvitteringsside from './Kvitteringsside/Kvitteringsside';
 import IngenTilgangInfo from './IngenTilgangInfo/IngenTilgangInfo';
 import { loggBrukerLoggetPa } from '../utils/amplitudefunksjonerForLogging';
-import { SkjemaContextProvider } from './Skjema/skjemaContext';
+import { Klageskjema, SkjemaContextProvider } from './Skjema/skjemaContext';
 import './App.less';
+import { hentKlager } from '../api/klageApi';
 
 enum TILGANGSSTATE {
     LASTER,
@@ -39,6 +40,7 @@ const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon>(
         tomaAltinnOrganisasjon
     );
+    const [skjemaer, setSkjemaer] = useState<Klageskjema[]>([]);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -76,6 +78,10 @@ const App = () => {
     useEffect(() => {
         setTilgangState(TILGANGSSTATE.LASTER);
         if (organisasjonerMedTilgang && valgtOrganisasjon !== tomaAltinnOrganisasjon) {
+            hentKlager(valgtOrganisasjon.OrganizationNumber).then((skjemaer) => {
+                console.log('respons:', skjemaer);
+                setSkjemaer(skjemaer);
+            });
             if (
                 organisasjonerMedTilgang.filter((organisasjonMedTilgang) => {
                     return (
@@ -116,9 +122,16 @@ const App = () => {
                                 {tilgangState !== TILGANGSSTATE.LASTER && (
                                     <>
                                         <Route exact path="/">
-                                            {tilgangState === TILGANGSSTATE.TILGANG && (
-                                                <Skjema valgtOrganisasjon={valgtOrganisasjon} />
-                                            )}
+
+                                            {tilgangState === TILGANGSSTATE.TILGANG &&
+                                                skjemaer.length === 0 && (
+                                                    <Skjema valgtOrganisasjon={valgtOrganisasjon} />
+                                                )}
+
+                                            {tilgangState === TILGANGSSTATE.TILGANG &&
+                                            skjemaer.length > 0 && <Redirect to="/kvitteringsside"/>
+                                            }
+
                                             {tilgangState === TILGANGSSTATE.IKKE_TILGANG && (
                                                 <IngenTilgangInfo
                                                     valgtOrganisasjon={valgtOrganisasjon}
@@ -137,7 +150,9 @@ const App = () => {
                                             )}
                                         </Route>
                                         <Route exact path="/kvitteringsside">
-                                            <Kvitteringsside valgtOrganisasjon={valgtOrganisasjon} />
+                                            <Kvitteringsside
+                                                valgtOrganisasjon={valgtOrganisasjon}
+                                            />
                                         </Route>
                                     </>
                                 )}
@@ -147,8 +162,8 @@ const App = () => {
                         ) : (
                             <div className="feilmelding-altinn">
                                 <AlertStripeFeil>
-                                    Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i
-                                    Altinn kan du prøve å laste siden på nytt.
+                                    Vi opplever ustabilitet med Altinn. Hvis du mener at du har
+                                    roller i Altinn kan du prøve å laste siden på nytt.
                                 </AlertStripeFeil>
                             </div>
                         )}

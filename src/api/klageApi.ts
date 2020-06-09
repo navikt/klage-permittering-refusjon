@@ -1,4 +1,4 @@
-import { backendUrl, basename } from '../lenker';
+import {backendUrl, basename} from '../lenker';
 import { FetchError } from './api-utils';
 
 interface Klage {
@@ -24,9 +24,8 @@ export const sendKlage = async (data: Klage) => {
     return respons.status;
 };
 
-export async function hentKlager(orgnr: string, signal: any): Promise<Klage[]> {
-    const backendurl: string = backendUrl();
-    let respons = await fetch(`${backendurl}${orgnr}/klage`, { signal: signal });
+export async function hentKlager(orgnr: string): Promise<Klage[]> {
+    let respons = await fetch(`${basename}/api/${orgnr}/klage`);
     if (respons.ok) {
         return await respons.json();
     } else {
