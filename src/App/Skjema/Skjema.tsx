@@ -41,6 +41,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                         orgnr: valgtOrganisasjon.OrganizationNumber,
                         ...context.skjema,
                     }).then(status => {
+                        console.log('status i then: ' + status)
                         if (status === 500) {
                             setInnsendingMislyktes(true);
                         }
