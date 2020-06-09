@@ -45,6 +45,8 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     }).then(status => {
                         if (status === 500) {
                             setInnsendingMislyktes(true);
+                            const thisKnapp = document.getElementById('send-inn-hovedknapp');
+                            thisKnapp && thisKnapp.removeAttribute("disabled");
                         }
                         if (status === 201) {
                             loggKlageSendtInn();
@@ -94,7 +96,6 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
 
             <div className="skjema__beskrivelse">
                 <Textarea
-
                     maxLength={0}
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
@@ -187,7 +188,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 </div>
             )}
             {innsendingMislyktes && (
-                <AlertStripe type="feil">Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere</AlertStripe>
+                <AlertStripe className = 'skjema__alertstripe' type="feil">Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere</AlertStripe>
             )}
         </div>
     );
