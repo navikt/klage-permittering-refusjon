@@ -20,5 +20,5 @@ export const sendKlage = async (data: Klage) => {
         },
     });
     console.log('respons status: ' + respons.status);
-    return respons.status;
+    return 500;
 };

@@ -9,6 +9,7 @@ import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import { SkjemaContext } from './skjemaContext';
+import AlertStripe from 'nav-frontend-alertstriper';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import {
     loggKlageSendtInn,
@@ -36,17 +37,16 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
         if (erSkjemaGyldig(context.skjema)) {
             const thisKnapp = document.getElementById('send-inn-hovedknapp');
             thisKnapp && thisKnapp.setAttribute('disabled', 'disabled');
+            setInnsendingMislyktes(false)
             setFeilmeldingSendInn('');
                    sendKlage({
                         orgnr: valgtOrganisasjon.OrganizationNumber,
                         ...context.skjema,
                     }).then(status => {
-                        console.log('status i then: ' + status)
                         if (status === 500) {
                             setInnsendingMislyktes(true);
                         }
                         if (status === 201) {
-                            console.log('sendt inn: true')
                             loggKlageSendtInn();
                             history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
                         }
@@ -94,6 +94,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
 
             <div className="skjema__beskrivelse">
                 <Textarea
+
                     maxLength={0}
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
@@ -186,9 +187,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 </div>
             )}
             {innsendingMislyktes && (
-                <div className="feilmelding-send-inn">
-                    <Feilmelding>'Noe gikk galt. Klarer ikke sende inn klageskjema'</Feilmelding>
-                </div>
+                <AlertStripe type="feil">Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere</AlertStripe>
             )}
         </div>
     );
