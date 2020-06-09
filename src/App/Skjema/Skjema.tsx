@@ -43,20 +43,21 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                         orgnr: valgtOrganisasjon.OrganizationNumber,
                         ...context.skjema,
                     }).then(status => {
-                        if (status === 500) {
-                            setInnsendingMislyktes(true);
-                            const thisKnapp = document.getElementById('send-inn-hovedknapp');
-                            thisKnapp && thisKnapp.removeAttribute("disabled");
-                        }
-                        if (status === 201) {
-                            loggKlageSendtInn();
-                            history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
-                        }
+                       if (status === 201 || status === 200) {
+                           loggKlageSendtInn();
+                           history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
+                       }
+                       else {
+                           setInnsendingMislyktes(true);
+                           const thisKnapp = document.getElementById('send-inn-hovedknapp');
+                           thisKnapp && thisKnapp.removeAttribute("disabled");
+                           loggKlageSendtMislyktes();
+                       }
+
                    }).catch(e => {
-                       setFeilmeldingSendInn('Du må fylle ut alle feltene');
                        setInnsendingMislyktes(true);
                        loggKlageSendtMislyktes();
-
+                       thisKnapp && thisKnapp.removeAttribute("disabled");
                    })
                 ;
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
