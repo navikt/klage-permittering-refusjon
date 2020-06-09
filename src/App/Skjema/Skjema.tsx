@@ -9,6 +9,7 @@ import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import { SkjemaContext } from './skjemaContext';
+import AlertStripe from 'nav-frontend-alertstriper';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import {
     loggKlageSendtInn,
@@ -27,6 +28,8 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
 
+    const [innsendingMislyktes, setInnsendingMislyktes] = useState(false);
+
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
@@ -34,20 +37,29 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
         if (erSkjemaGyldig(context.skjema)) {
             const thisKnapp = document.getElementById('send-inn-hovedknapp');
             thisKnapp && thisKnapp.setAttribute('disabled', 'disabled');
+            setInnsendingMislyktes(false)
             setFeilmeldingSendInn('');
-            try {
-                console.log(
-                    await sendKlage({
+                   sendKlage({
                         orgnr: valgtOrganisasjon.OrganizationNumber,
                         ...context.skjema,
-                    })
-                );
-                loggKlageSendtInn();
-                history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
-            } catch (e) {
-                setFeilmeldingSendInn('Du må fylle ut alle feltene');
-                loggKlageSendtMislyktes();
-            }
+                    }).then(status => {
+                       if (status === 201 || status === 200) {
+                           loggKlageSendtInn();
+                           history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
+                       }
+                       else {
+                           setInnsendingMislyktes(true);
+                           const thisKnapp = document.getElementById('send-inn-hovedknapp');
+                           thisKnapp && thisKnapp.removeAttribute("disabled");
+                           loggKlageSendtMislyktes();
+                       }
+
+                   }).catch(e => {
+                       setInnsendingMislyktes(true);
+                       loggKlageSendtMislyktes();
+                       thisKnapp && thisKnapp.removeAttribute("disabled");
+                   })
+                ;
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
     };
 
@@ -61,7 +73,6 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
-
             <div className="skjema__bedriftinfo">
                 <Normaltekst className="bedriftinfo-tittel bold">
                     Klage på vedtak for virksomhet
@@ -86,6 +97,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
 
             <div className="skjema__beskrivelse">
                 <Textarea
+                    maxLength={0}
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
                     value={context.skjema.tekst}
@@ -175,6 +187,9 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <div className="feilmelding-send-inn">
                     <Feilmelding>{feilmeldingSendInn}</Feilmelding>
                 </div>
+            )}
+            {innsendingMislyktes && (
+                <AlertStripe className = 'skjema__alertstripe' type="feil">Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere.</AlertStripe>
             )}
         </div>
     );
