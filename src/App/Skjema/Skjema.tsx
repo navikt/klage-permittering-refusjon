@@ -27,6 +27,8 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
 
+    const [innsendingMislyktes, setInnsendingMislyktes] = useState(false);
+
     const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
          permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
@@ -35,19 +37,24 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
             const thisKnapp = document.getElementById('send-inn-hovedknapp');
             thisKnapp && thisKnapp.setAttribute('disabled', 'disabled');
             setFeilmeldingSendInn('');
-            try {
-                console.log(
-                    await sendKlage({
+                   sendKlage({
                         orgnr: valgtOrganisasjon.OrganizationNumber,
                         ...context.skjema,
-                    })
-                );
-                loggKlageSendtInn();
-                history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
-            } catch (e) {
-                setFeilmeldingSendInn('Du må fylle ut alle feltene');
-                loggKlageSendtMislyktes();
-            }
+                    }).then(status => {
+                        if (status === 500) {
+                            setInnsendingMislyktes(true);
+                        }
+                        if (status === 200) {
+                            loggKlageSendtInn();
+                            history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
+                        }
+                   }).catch(e => {
+                       setFeilmeldingSendInn('Du må fylle ut alle feltene');
+                       setInnsendingMislyktes(true);
+                       loggKlageSendtMislyktes();
+
+                   })
+                ;
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
     };
 
@@ -174,6 +181,11 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
             {feilmeldingSendInn && (
                 <div className="feilmelding-send-inn">
                     <Feilmelding>{feilmeldingSendInn}</Feilmelding>
+                </div>
+            )}
+            {innsendingMislyktes && (
+                <div className="feilmelding-send-inn">
+                    <Feilmelding>'Noe gikk galt. Klarer ikke sende inn klageskjema'</Feilmelding>
                 </div>
             )}
         </div>

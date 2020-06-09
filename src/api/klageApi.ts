@@ -19,6 +19,6 @@ export const sendKlage = async (data: Klage) => {
             'Content-Type': 'application/json',
         },
     });
-
+    console.log('respons status: ' + respons.status);
     return respons.status;
 };
