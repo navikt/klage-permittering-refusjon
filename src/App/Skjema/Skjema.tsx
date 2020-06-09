@@ -188,7 +188,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 </div>
             )}
             {innsendingMislyktes && (
-                <AlertStripe className = 'skjema__alertstripe' type="feil">Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere</AlertStripe>
+                <AlertStripe className = 'skjema__alertstripe' type="feil">Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere.</AlertStripe>
             )}
         </div>
     );
