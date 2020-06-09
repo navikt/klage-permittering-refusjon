@@ -45,7 +45,8 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                         if (status === 500) {
                             setInnsendingMislyktes(true);
                         }
-                        if (status === 200) {
+                        if (status === 201) {
+                            console.log('sendt inn: true')
                             loggKlageSendtInn();
                             history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
                         }
@@ -69,7 +70,6 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
-
             <div className="skjema__bedriftinfo">
                 <Normaltekst className="bedriftinfo-tittel bold">
                     Klage på vedtak for virksomhet
@@ -94,6 +94,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
 
             <div className="skjema__beskrivelse">
                 <Textarea
+                    maxLength={0}
                     label="Hva i vedtaket ønsker du å klage på?"
                     description="Ikke del sensitive opplysninger her."
                     value={context.skjema.tekst}
