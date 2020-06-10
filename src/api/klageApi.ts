@@ -1,13 +1,14 @@
 import {backendUrl, basename} from '../lenker';
 import { FetchError } from './api-utils';
 
-interface Klage {
+export interface Klage {
     orgnr: string;
     referansekode: string;
     navn: string;
     epost: string;
     telefonnr: string;
     tekst: string;
+    opprettet: Date;
 }
 
 export const sendKlage = async (data: Klage) => {

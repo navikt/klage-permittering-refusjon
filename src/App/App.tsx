@@ -122,14 +122,8 @@ const App = () => {
                                 {tilgangState !== TILGANGSSTATE.LASTER && (
                                     <>
                                         <Route exact path="/">
-
                                             {tilgangState === TILGANGSSTATE.TILGANG &&
-                                                skjemaer.length === 0 && (
-                                                    <Skjema valgtOrganisasjon={valgtOrganisasjon} />
-                                                )}
-
-                                            {tilgangState === TILGANGSSTATE.TILGANG &&
-                                            skjemaer.length > 0 && <Redirect to="/kvitteringsside"/>
+                                            skjemaer.length > 0 && <Redirect to="/skjema/kvitteringsside"  />
                                             }
 
                                             {tilgangState === TILGANGSSTATE.IKKE_TILGANG && (
@@ -149,9 +143,15 @@ const App = () => {
                                                 />
                                             )}
                                         </Route>
-                                        <Route exact path="/kvitteringsside">
+                                        {tilgangState === TILGANGSSTATE.TILGANG && (
+                                            <Route exact path="/skjema">
+                                                <Skjema valgtOrganisasjon={valgtOrganisasjon} />
+                                            </Route>
+                                        )}
+                                        <Route exact path="/skjema/kvitteringsside">
                                             <Kvitteringsside
                                                 valgtOrganisasjon={valgtOrganisasjon}
+                                                skjemaer={skjemaer}
                                             />
                                         </Route>
                                     </>

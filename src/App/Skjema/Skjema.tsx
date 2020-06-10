@@ -45,7 +45,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     })
                 );
                 loggKlageSendtInn();
-                history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
+                history.push(`/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
             } catch (e) {
                 setFeilmeldingSendInn('Du må fylle ut alle feltene');
                 loggKlageSendtMislyktes();
