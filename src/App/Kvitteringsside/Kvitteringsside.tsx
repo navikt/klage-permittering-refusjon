@@ -17,8 +17,10 @@ interface Props {
 const Kvitteringsside = ({ valgtOrganisasjon }: Props) => {
     const context = useContext(SkjemaContext);
 
-    const snakkebobletekst = `Takk for din klage. Du får beskjed per post til virksomhetens adresse når vi har
-         behandlet klagen din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
+    const snakkebobletekst = `Takk for din henvendelse. Du får beskjed per post til virksomhetens adresse når vi har
+         behandlet saken din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
+
+    const typeskjema = context.skjema.type === 'KLAGE' ? 'Klage' : 'Endring av opplysninger';
 
     const orgNr = valgtOrganisasjon.OrganizationNumber;
 
@@ -30,7 +32,7 @@ const Kvitteringsside = ({ valgtOrganisasjon }: Props) => {
         <div className="kvitteringsside">
             <Normaltekst className="brodsmule">
                 <Lenke href={minSideArbeidsgiverUrl(orgNr)}>Min side – arbeidsgiver</Lenke>
-                {' / Klage på vedtak for refusjon ved permittering'}
+                {' / Endringer av opplysninger eller klage på vedtak for refusjon ved permittering'}
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
@@ -39,7 +41,7 @@ const Kvitteringsside = ({ valgtOrganisasjon }: Props) => {
                 <div className="oppsummering-tittel">
                     <KvitteringssideIkon />
                     <Systemtittel className="oppsummering-overskrift">
-                        {'Klage sendt inn ' + dato()}
+                        {`${typeskjema} sendt inn ${dato()}`}
                     </Systemtittel>
                 </div>
 
@@ -71,7 +73,7 @@ const Kvitteringsside = ({ valgtOrganisasjon }: Props) => {
                         window.location.href = basename + '/?bedrift=' + orgNr;
                     }}
                 >
-                    Ny klage
+                    Ny henvendelse
                 </Flatknapp>
             </div>
         </div>

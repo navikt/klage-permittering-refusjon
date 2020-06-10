@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Lenke from 'nav-frontend-lenker';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { Input, Textarea } from 'nav-frontend-skjema';
+import { Input, RadioPanelGruppe, Textarea } from 'nav-frontend-skjema';
 import { minSideArbeidsgiverUrl } from '../../lenker';
 import { Organisasjon } from '../../api/altinnApi';
 import { sendKlage } from '../../api/klageApi';
@@ -27,39 +27,43 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilmeldingSendInn, setFeilmeldingSendInn] = useState('');
     const [feilMeldingEpost, setFeilmeldingEpost] = useState('');
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
-
     const [innsendingMislyktes, setInnsendingMislyktes] = useState(false);
 
-    const snakkebobletekst = `Legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
-         permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
+    const snakkebobletekst = `
+    Hvis du la inn feil opplysniger og ønsker å endre innsendte opplysninger trenger vi fødselsnummer og beløp på 
+    de ansatte det gjelder.
+    
+    Hvis du ønsker å klage, legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
+    permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
 
     const onSendInnClick = async () => {
         if (erSkjemaGyldig(context.skjema)) {
             const thisKnapp = document.getElementById('send-inn-hovedknapp');
             thisKnapp && thisKnapp.setAttribute('disabled', 'disabled');
-            setInnsendingMislyktes(false)
+            setInnsendingMislyktes(false);
             setFeilmeldingSendInn('');
-                   sendKlage({
-                        orgnr: valgtOrganisasjon.OrganizationNumber,
-                        ...context.skjema,
-                    }).then(status => {
-                       if (status === 201 || status === 200) {
-                           loggKlageSendtInn();
-                           history.push(`/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`);
-                       }
-                       else {
-                           setInnsendingMislyktes(true);
-                           const thisKnapp = document.getElementById('send-inn-hovedknapp');
-                           thisKnapp && thisKnapp.removeAttribute("disabled");
-                           loggKlageSendtMislyktes();
-                       }
-
-                   }).catch(e => {
-                       setInnsendingMislyktes(true);
-                       loggKlageSendtMislyktes();
-                       thisKnapp && thisKnapp.removeAttribute("disabled");
-                   })
-                ;
+            sendKlage({
+                orgnr: valgtOrganisasjon.OrganizationNumber,
+                ...context.skjema,
+            })
+                .then((status) => {
+                    if (status === 201 || status === 200) {
+                        loggKlageSendtInn();
+                        history.push(
+                            `/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
+                        );
+                    } else {
+                        setInnsendingMislyktes(true);
+                        const thisKnapp = document.getElementById('send-inn-hovedknapp');
+                        thisKnapp && thisKnapp.removeAttribute('disabled');
+                        loggKlageSendtMislyktes();
+                    }
+                })
+                .catch((e) => {
+                    setInnsendingMislyktes(true);
+                    loggKlageSendtMislyktes();
+                    thisKnapp && thisKnapp.removeAttribute('disabled');
+                });
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
     };
 
@@ -69,7 +73,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
                     Min side – arbeidsgiver
                 </Lenke>
-                {' / Klage på vedtak for refusjon ved permittering'}
+                {' / Endringer av opplysninger eller klage på vedtak for refusjon ved permittering'}
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
@@ -83,10 +87,33 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 </Normaltekst>
             </div>
 
+            <div className="skjema__type">
+                <RadioPanelGruppe
+                    name="samplename"
+                    legend="Dette gjelder"
+                    radios={[
+                        {
+                            label: 'Endring av innsendte opplysninger',
+                            value: 'ENDRE',
+                            id: 'endre',
+                        },
+                        {
+                            label: 'Klage på vedtak',
+                            value: 'KLAGE',
+                            id: 'klage',
+                        },
+                    ]}
+                    checked={context.skjema.type}
+                    onChange={(event, value) => {
+                        context.settSkjemaVerdi('type', value);
+                    }}
+                />
+            </div>
+
             <div className="skjema__vedtakskode">
                 <Input
                     className="skjema__input-felt"
-                    label="Referansekode for vedtak"
+                    label="Referansekode for vedtak (hvis du har fått et vedtak)"
                     description="Du finner referansekoden øverst på vedtaket du fikk i Altinn. Kopier og lim inn her."
                     value={context.skjema.referansekode}
                     onChange={(event: any) =>
@@ -98,8 +125,8 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
             <div className="skjema__beskrivelse">
                 <Textarea
                     maxLength={0}
-                    label="Hva i vedtaket ønsker du å klage på?"
-                    description="Ikke del sensitive opplysninger her."
+                    label="Beskriv hva saken gjelder"
+                    description="For endring av innsendte opplysninger, oppgi fødselsnummer og beløp for de ansatte det gjelder. Hvis det er en klage, beskriv hva du ønsker å klage på. Ikke del sensitive opplysninger her."
                     value={context.skjema.tekst}
                     onChange={(event: any) => {
                         context.settSkjemaVerdi('tekst', event.currentTarget.value);
@@ -167,7 +194,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     id="send-inn-hovedknapp"
                     className="send-inn-knapp"
                 >
-                    Send inn klage
+                    Send inn
                 </Hovedknapp>
                 <Flatknapp
                     onClick={() => {
@@ -189,7 +216,9 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 </div>
             )}
             {innsendingMislyktes && (
-                <AlertStripe className = 'skjema__alertstripe' type="feil">Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere.</AlertStripe>
+                <AlertStripe className="skjema__alertstripe" type="feil">
+                    Vi har tekniske problemer og jobber med å løse saken. Prøv på nytt senere.
+                </AlertStripe>
             )}
         </div>
     );

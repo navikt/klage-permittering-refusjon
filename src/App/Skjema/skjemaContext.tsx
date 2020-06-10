@@ -6,6 +6,7 @@ export interface Klageskjema {
     navn: string;
     epost: string;
     telefonnr: string;
+    type: string;
 }
 
 const tomtSkjema: Klageskjema = {
@@ -14,6 +15,7 @@ const tomtSkjema: Klageskjema = {
     navn: '',
     epost: '',
     telefonnr: '',
+    type: '',
 };
 
 interface SkjemaContext {
