@@ -6,7 +6,7 @@ import { basename, minSideArbeidsgiverUrl } from '../../lenker';
 import { dato } from './datofunksjoner';
 import KvitteringssideIkon from './KvitteringssideIkon';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
-import { SkjemaContext } from '../Skjema/skjemaContext';
+import {Klagetype, SkjemaContext} from '../Skjema/skjemaContext';
 import { Organisasjon } from '../../api/altinnApi';
 import './Kvitteringsside.less';
 
@@ -20,7 +20,7 @@ const Kvitteringsside = ({ valgtOrganisasjon }: Props) => {
     const snakkebobletekst = `Takk for din henvendelse. Du får beskjed per post til virksomhetens adresse når vi har
          behandlet saken din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
 
-    const typeskjema = context.skjema.type === 'KLAGE' ? 'Klage' : 'Endring av opplysninger';
+    const typeskjema = context.skjema.klagetype === Klagetype.KLAGE ? 'Klage' : 'Endring av opplysninger';
 
     const orgNr = valgtOrganisasjon.OrganizationNumber;
 

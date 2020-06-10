@@ -1,20 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, {useContext, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import Lenke from 'nav-frontend-lenker';
-import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
-import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
-import { Input, RadioPanelGruppe, Textarea } from 'nav-frontend-skjema';
-import { minSideArbeidsgiverUrl } from '../../lenker';
-import { Organisasjon } from '../../api/altinnApi';
-import { sendKlage } from '../../api/klageApi';
+import {Feilmelding, Normaltekst} from 'nav-frontend-typografi';
+import {Flatknapp, Hovedknapp} from 'nav-frontend-knapper';
+import {Input, RadioPanelGruppe, Textarea} from 'nav-frontend-skjema';
+import {minSideArbeidsgiverUrl} from '../../lenker';
+import {Organisasjon} from '../../api/altinnApi';
+import {sendKlage} from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
-import { SkjemaContext } from './skjemaContext';
+import {Klagetype, SkjemaContext} from './skjemaContext';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
-import {
-    loggKlageSendtInn,
-    loggKlageSendtMislyktes,
-} from '../../utils/amplitudefunksjonerForLogging';
+import {erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig} from './SkjemaValidering';
+import {loggKlageSendtInn, loggKlageSendtMislyktes,} from '../../utils/amplitudefunksjonerForLogging';
 import './Skjema.less';
 
 interface Props {
@@ -94,18 +91,18 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                     radios={[
                         {
                             label: 'Endring av innsendte opplysninger',
-                            value: 'ENDRE',
-                            id: 'endre',
+                            value: Klagetype.ENDRING,
+                            id: Klagetype.ENDRING,
                         },
                         {
                             label: 'Klage på vedtak',
-                            value: 'KLAGE',
-                            id: 'klage',
+                            value: Klagetype.KLAGE,
+                            id: Klagetype.KLAGE,
                         },
                     ]}
-                    checked={context.skjema.type}
+                    checked={context.skjema.klagetype}
                     onChange={(event, value) => {
-                        context.settSkjemaVerdi('type', value);
+                        context.settSkjemaVerdi('klagetype', value);
                     }}
                 />
             </div>

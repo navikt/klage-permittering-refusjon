@@ -31,7 +31,8 @@ export const erSkjemaGyldig = (skjema: Klageskjema): boolean => {
         erIkkeTomString(skjema.telefonnr) &&
         erIkkeTomString(skjema.epost) &&
         erIkkeTomString(skjema.tekst) &&
-        erIkkeTomString(skjema.navn)
+        erIkkeTomString(skjema.navn)  &&
+        erIkkeTomString(skjema.klagetype)
     );
 };
 
