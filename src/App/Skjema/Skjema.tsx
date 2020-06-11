@@ -26,12 +26,16 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
     const [innsendingMislyktes, setInnsendingMislyktes] = useState(false);
 
-    const snakkebobletekst = `
-    Hvis du la inn feil opplysniger og ønsker å endre innsendte opplysninger trenger vi fødselsnummer og beløp på 
-    de ansatte det gjelder.
-    
-    Hvis du ønsker å klage, legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
-    permittering. Din klage må gjelde vedtaket NAV fattet i saken.`;
+    const snakkebobletekst =
+    <>
+        <Normaltekst className="skjema__snakkeboble-avsnitt">Hvis du la inn feil opplysniger og ønsker å endre innsendte opplysninger trenger vi fødselsnummer og beløp på
+        de ansatte det gjelder.
+        </Normaltekst>
+        <Normaltekst>
+        Hvis du ønsker å klage, legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
+        permittering. Din klage må gjelde vedtaket NAV fattet i saken.
+        </Normaltekst>
+    </>;
 
     const onSendInnClick = async () => {
         if (erSkjemaGyldig(context.skjema)) {
