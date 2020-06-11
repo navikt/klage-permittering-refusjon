@@ -1,17 +1,20 @@
-import React, {useContext, useState} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Lenke from 'nav-frontend-lenker';
-import {Feilmelding, Normaltekst} from 'nav-frontend-typografi';
-import {Flatknapp, Hovedknapp} from 'nav-frontend-knapper';
-import {Input, RadioPanelGruppe, Textarea} from 'nav-frontend-skjema';
-import {minSideArbeidsgiverUrl} from '../../lenker';
-import {Organisasjon} from '../../api/altinnApi';
-import {sendKlage} from '../../api/klageApi';
+import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
+import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
+import { Input, RadioPanelGruppe, Textarea } from 'nav-frontend-skjema';
+import { minSideArbeidsgiverUrl } from '../../lenker';
+import { Organisasjon } from '../../api/altinnApi';
+import { sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
-import {Klagetype, SkjemaContext} from './skjemaContext';
+import { Klagetype, SkjemaContext } from './skjemaContext';
 import AlertStripe from 'nav-frontend-alertstriper';
-import {erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig} from './SkjemaValidering';
-import {loggKlageSendtInn, loggKlageSendtMislyktes,} from '../../utils/amplitudefunksjonerForLogging';
+import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
+import {
+    loggKlageSendtInn,
+    loggKlageSendtMislyktes,
+} from '../../utils/amplitudefunksjonerForLogging';
 import './Skjema.less';
 
 interface Props {
@@ -26,16 +29,18 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
     const [feilMeldingTelefonNr, setFeilmeldingTelefonNr] = useState('');
     const [innsendingMislyktes, setInnsendingMislyktes] = useState(false);
 
-    const snakkebobletekst =
-    <>
-        <Normaltekst className="skjema__snakkeboble-avsnitt">Hvis du la inn feil opplysniger og ønsker å endre innsendte opplysninger trenger vi fødselsnummer og beløp på
-        de ansatte det gjelder.
-        </Normaltekst>
-        <Normaltekst>
-        Hvis du ønsker å klage, legg merke til at du ikke kan klage på selve regelverket for refusjon av lønn ved
-        permittering. Din klage må gjelde vedtaket NAV fattet i saken.
-        </Normaltekst>
-    </>;
+    const snakkebobletekst = (
+        <>
+            <Normaltekst className="skjema__snakkeboble-avsnitt">
+                Hvis du la inn feil opplysninger og ønsker å endre innsendte opplysninger trenger vi
+                fødselsnummer og beløp på de ansatte det gjelder.
+            </Normaltekst>
+            <Normaltekst>
+                Hvis du ønsker å klage, legg merke til at du ikke kan klage på selve regelverket for
+                refusjon av lønn ved permittering. Din klage må gjelde vedtaket NAV fattet i saken.
+            </Normaltekst>
+        </>
+    );
 
     const onSendInnClick = async () => {
         if (erSkjemaGyldig(context.skjema)) {
@@ -74,7 +79,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
                     Min side – arbeidsgiver
                 </Lenke>
-                {' / Endringer av opplysninger eller klage på vedtak for refusjon ved permittering'}
+                {' / Endre opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
