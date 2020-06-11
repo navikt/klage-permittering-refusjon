@@ -79,13 +79,13 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
                     Min side – arbeidsgiver
                 </Lenke>
-                {' / Endre opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
+                {' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
             <div className="skjema__bedriftinfo">
                 <Normaltekst className="bedriftinfo-tittel bold">
-                    Klage på vedtak for virksomhet
+                    Virksomhet
                 </Normaltekst>
                 <Normaltekst className="bedriftinfo-navn">{valgtOrganisasjon.Name}</Normaltekst>
                 <Normaltekst className="bedriftinfo-orgnr">

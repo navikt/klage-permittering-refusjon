@@ -32,7 +32,7 @@ const Kvitteringsside = ({ valgtOrganisasjon }: Props) => {
         <div className="kvitteringsside">
             <Normaltekst className="brodsmule">
                 <Lenke href={minSideArbeidsgiverUrl(orgNr)}>Min side – arbeidsgiver</Lenke>
-                {' / Endre opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
+                {' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
