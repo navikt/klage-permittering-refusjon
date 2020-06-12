@@ -1,11 +1,17 @@
 import React, { createContext, FunctionComponent, useState } from 'react';
 
+export enum Klagetype {
+    KLAGE = 'KLAGE',
+    ENDRING = 'ENDRING'
+}
+
 export interface Klageskjema {
     referansekode: string;
     tekst: string;
     navn: string;
     epost: string;
     telefonnr: string;
+    klagetype: string;
 }
 
 const tomtSkjema: Klageskjema = {
@@ -14,6 +20,7 @@ const tomtSkjema: Klageskjema = {
     navn: '',
     epost: '',
     telefonnr: '',
+    klagetype: '',
 };
 
 interface SkjemaContext {
