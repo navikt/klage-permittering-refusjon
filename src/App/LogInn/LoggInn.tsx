@@ -11,7 +11,6 @@ export const redirectTilLogin = () => {
     if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
         window.location.href = basename + '/redirect-til-login';
     } else {
-        //document.cookie = 'selvbetjening-idtoken=0123456789..*; path=/;';
         window.location.href = 'http://localhost:8080/klage-permittering-refusjon-api/local/cookie?redirect=http://localhost:3000/klage-permittering-refusjon'
     }
 };
@@ -22,7 +21,7 @@ export const LoggInn: FunctionComponent = () => {
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
                 <Normaltekst className="innloggingsside__sidetittel">
-                    Her kan du som arbeidsgiver klage på vedtaket knyttet til refusjon av forskuttert lønn ved permittering.
+                    Her kan du som arbeidsgiver endre innsendte opplysninger eller klage på vedtaket knyttet til refusjon av forskuttert lønn ved permittering.
                 </Normaltekst>
 
                 <Hovedknapp className="innloggingsside__loginKnapp" onClick={redirectTilLogin}>
