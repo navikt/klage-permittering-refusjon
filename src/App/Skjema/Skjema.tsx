@@ -120,7 +120,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Input
                     className="skjema__input-felt"
                     label="Referansekode for vedtak (hvis du har fått et vedtak)"
-                    description="Du finner referansekoden øverst på vedtaket du fikk i Altinn. Kopier og lim inn her."
+                    description="Du finner referansekoden øverst på vedtaket du fikk i Altinn. Kopier og lim inn her. Har den ansatte fått vedtaket? La feltet stå tomt."
                     value={context.skjema.referansekode}
                     onChange={(event: any) =>
                         context.settSkjemaVerdi('referansekode', event.currentTarget.value)
