@@ -13,6 +13,12 @@ export const loggKlageSendtInn = () => {
     }
 };
 
+export const loggKlageEllerEndring = (klagetype: string) => {
+    if (environment.MILJO) {
+        amplitude.logEvent('#klage-permittering-refusjon klagetype: ' +klagetype);
+    }
+};
+
 export const loggKlageSendtMislyktes = () => {
     if (environment.MILJO) {
         amplitude.logEvent('#klage-permittering-refusjon klage sendt inn mislyktes');

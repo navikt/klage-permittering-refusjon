@@ -12,6 +12,7 @@ import { Klagetype, SkjemaContext } from './skjemaContext';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
 import {
+    loggKlageEllerEndring,
     loggKlageSendtInn,
     loggKlageSendtMislyktes,
 } from '../../utils/amplitudefunksjonerForLogging';
@@ -55,6 +56,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 .then((status) => {
                     if (status === 201 || status === 200) {
                         loggKlageSendtInn();
+                        loggKlageEllerEndring(context.skjema.klagetype);
                         history.push(
                             `/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
                         );
