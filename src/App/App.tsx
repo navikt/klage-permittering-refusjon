@@ -49,6 +49,7 @@ const App = () => {
                     organisasjonsliste.filter(
                         (organisasjon) =>
                             organisasjon.OrganizationForm === 'BEDR' ||
+                            organisasjon.OrganizationForm === 'AAFY' ||
                             organisasjon.Type === 'Enterprise'
                     )
                 );
