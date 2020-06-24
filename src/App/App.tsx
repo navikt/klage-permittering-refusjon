@@ -10,15 +10,15 @@ import {
 } from '../api/altinnApi';
 import { basename } from '../lenker';
 import { APISTATUS } from '../api/api-utils';
+import {hentKlager, Klage} from '../api/klageApi';
 import LoginBoundary from './LogInn/LoginBoundary';
 import HovedBanner from './HovedBanner/HovedBanner';
 import Skjema from './Skjema/Skjema';
 import Kvitteringsside from './Kvitteringsside/Kvitteringsside';
 import IngenTilgangInfo from './IngenTilgangInfo/IngenTilgangInfo';
 import { loggBrukerLoggetPa } from '../utils/amplitudefunksjonerForLogging';
-import { Klageskjema, SkjemaContextProvider } from './Skjema/skjemaContext';
+import { SkjemaContextProvider } from './Skjema/skjemaContext';
 import './App.less';
-import { hentKlager } from '../api/klageApi';
 
 enum TILGANGSSTATE {
     LASTER,
@@ -40,7 +40,7 @@ const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon>(
         tomaAltinnOrganisasjon
     );
-    const [skjemaer, setSkjemaer] = useState<Klageskjema[]>([]);
+    const [skjemaer, setSkjemaer] = useState<Klage[]>([]);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -125,6 +125,10 @@ const App = () => {
                                         <Route exact path="/">
                                             {tilgangState === TILGANGSSTATE.TILGANG &&
                                             skjemaer.length > 0 && <Redirect to="/skjema/kvitteringsside"  />
+                                            }
+
+                                            {tilgangState === TILGANGSSTATE.TILGANG &&
+                                            skjemaer.length === 0 && <Redirect to="/skjema"  />
                                             }
 
                                             {tilgangState === TILGANGSSTATE.IKKE_TILGANG && (

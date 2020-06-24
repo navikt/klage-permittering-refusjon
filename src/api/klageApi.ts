@@ -1,14 +1,10 @@
-import {backendUrl, basename} from '../lenker';
+import { backendUrl, basename } from '../lenker';
 import { FetchError } from './api-utils';
+import { Klageskjema } from '../App/Skjema/skjemaContext';
 
-export interface Klage {
+export interface Klage extends Klageskjema {
     orgnr: string;
-    referansekode: string;
-    navn: string;
-    epost: string;
-    telefonnr: string;
-    tekst: string;
-    opprettet: Date;
+    opprettet?: string;
 }
 
 export const sendKlage = async (data: Klage) => {

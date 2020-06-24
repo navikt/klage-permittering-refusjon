@@ -1,6 +1,6 @@
 import fetchMock from 'fetch-mock';
 import { basename } from '../lenker';
-import { Klageskjema } from '../App/Skjema/skjemaContext';
+import { Klage } from '../api/klageApi';
 
 const delay = new Promise((res) => setTimeout(res, 500));
 
@@ -13,12 +13,27 @@ fetchMock
     )
     .spy();
 
-const klageRespons: Klageskjema[] = [
+// const klageRespons: Klage[] = [];
+
+const klageRespons: Klage[] = [
     {
-        epost: 'ole.hansen@telenor.no',
+        orgnr: '12345678',
+        referansekode: 'string123',
         navn: 'Ole Hansen',
-        referansekode: 'REF2020123ABC54S456',
+        epost: 'ole.hansen@telenor.no',
+        telefonnr: '12345678',
         tekst: 'Jeg klager på ditten og datten',
-        telefonnr: '90847457',
+        klagetype: 'ENDRING',
+        opprettet: '010780',
+    },
+    {
+        orgnr: '12345678',
+        referansekode: 'abc123',
+        navn: 'Kari Nordmann',
+        epost: 'kari.nordmann@nav.no',
+        telefonnr: '12345678',
+        tekst: 'Klage og endring og bla bla',
+        klagetype: 'KLAGE',
+        opprettet: '010780',
     },
 ];
