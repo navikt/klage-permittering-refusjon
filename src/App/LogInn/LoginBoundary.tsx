@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { hentInnloggingstatus } from '../../api/innloggingsstatusApi';
 import { LoggInn } from './LoggInn';
 import environment from '../../utils/environment';
+import { sjekkInnlogget} from "../../api/altinnApi";
 
 export enum Tilgang {
     LASTER,
@@ -23,11 +23,13 @@ const LoginBoundary: FunctionComponent = (props) => {
     useEffect(() => {
         setInnlogget(Tilgang.LASTER);
         const getLoginStatus = async () => {
+            const abortController = new AbortController();
+            const signal = abortController.signal;
             if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-                let innloggingsstatus = await hentInnloggingstatus();
-                if (innloggingsstatus.harGyldigOidcToken && innloggingsstatus.nivaOidc === 4) {
+                let innloggingsstatus = await sjekkInnlogget(signal);
+                if (innloggingsstatus) {
                     setInnlogget(Tilgang.TILGANG);
-                } else if (!innloggingsstatus.harGyldigOidcToken) {
+                } else {
                     setInnlogget(Tilgang.IKKE_TILGANG);
                 }
             } else {

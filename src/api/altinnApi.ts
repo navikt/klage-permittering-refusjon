@@ -28,6 +28,15 @@ export async function hentOrganisasjonerFraAltinn(signal: any): Promise<Organisa
     }
 }
 
+export async function sjekkInnlogget(signal: any): Promise<boolean> {
+    let respons = await fetch(basename + '/api/organisasjoner', { signal: signal });
+    if (respons.ok) {
+        return true
+    } else {
+       return false
+    }
+}
+
 export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     serviceKode: string,
     serviceEdition: string,

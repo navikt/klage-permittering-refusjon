@@ -3,7 +3,7 @@ import Snakkeboble from 'nav-frontend-snakkeboble';
 import './VeilederSnakkeboble.less';
 
 interface Props {
-    tekst: string;
+    tekst: React.ReactNode | string;
 }
 
 const VeilederSnakkeboble = ({ tekst }: Props) => {

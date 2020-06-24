@@ -6,7 +6,7 @@ import { basename, minSideArbeidsgiverUrl } from '../../lenker';
 import { dato } from './datofunksjoner';
 import KvitteringssideIkon from './KvitteringssideIkon';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
-import { SkjemaContext } from '../Skjema/skjemaContext';
+import {Klagetype, SkjemaContext} from '../Skjema/skjemaContext';
 import { Organisasjon } from '../../api/altinnApi';
 import { Klage } from '../../api/klageApi';
 import './Kvitteringsside.less';
@@ -19,8 +19,10 @@ interface Props {
 const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
     const context = useContext(SkjemaContext);
 
-    const snakkebobletekst = `Takk for din klage. Du får beskjed per post til virksomhetens adresse når vi har
-         behandlet klagen din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
+    const snakkebobletekst = `Takk for din henvendelse. Du får beskjed per post til virksomhetens adresse når vi har
+         behandlet saken din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
+
+    const typeskjema = context.skjema.klagetype === Klagetype.KLAGE ? 'Klage' : 'Endring av opplysninger';
 
     const orgNr = valgtOrganisasjon.OrganizationNumber;
     let date = new Date();
@@ -33,7 +35,7 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
         <div className="kvitteringsside">
             <Normaltekst className="brodsmule">
                 <Lenke href={minSideArbeidsgiverUrl(orgNr)}>Min side – arbeidsgiver</Lenke>
-                {' / Klage på vedtak for refusjon ved permittering'}
+                {' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
@@ -42,7 +44,7 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
                 <div className="oppsummering-tittel">
                     <KvitteringssideIkon />
                     <Systemtittel className="oppsummering-overskrift">
-                        {'Klage sendt inn ' + dato(date)}
+                        {`${typeskjema} sendt inn ${dato()}`}
                     </Systemtittel>
                 </div>
 
@@ -102,7 +104,7 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
                         window.location.href = basename + '/skjema/?bedrift=' + orgNr;
                     }}
                 >
-                    Ny klage
+                    Ny henvendelse
                 </Flatknapp>
             </div>
         </div>
