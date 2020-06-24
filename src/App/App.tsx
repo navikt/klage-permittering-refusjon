@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
 import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import {
@@ -10,7 +10,7 @@ import {
 } from '../api/altinnApi';
 import { basename } from '../lenker';
 import { APISTATUS } from '../api/api-utils';
-import {hentKlager, Klage} from '../api/klageApi';
+import { hentKlager, Klage } from '../api/klageApi';
 import LoginBoundary from './LogInn/LoginBoundary';
 import HovedBanner from './HovedBanner/HovedBanner';
 import Skjema from './Skjema/Skjema';
@@ -40,6 +40,7 @@ const App = () => {
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon>(
         tomaAltinnOrganisasjon
     );
+    const [lasteStateKlager, setLasteStateKlager] = useState<APISTATUS>(APISTATUS.LASTER);
     const [skjemaer, setSkjemaer] = useState<Klage[]>([]);
 
     useEffect(() => {
@@ -78,26 +79,26 @@ const App = () => {
 
     useEffect(() => {
         setTilgangState(TILGANGSSTATE.LASTER);
-        if (organisasjonerMedTilgang && valgtOrganisasjon !== tomaAltinnOrganisasjon) {
-            hentKlager(valgtOrganisasjon.OrganizationNumber).then((skjemaer) => {
-                console.log('respons:', skjemaer);
-                setSkjemaer(skjemaer);
-            });
-            if (
-                organisasjonerMedTilgang.filter((organisasjonMedTilgang) => {
-                    return (
-                        organisasjonMedTilgang.OrganizationNumber ===
-                        valgtOrganisasjon.OrganizationNumber
-                    );
-                }).length >= 1
-            ) {
-                setTilgangState(TILGANGSSTATE.TILGANG);
+        setLasteStateKlager(APISTATUS.LASTER);
+
+        const valgtOrgHarTilgang = () => organisasjonerMedTilgang && organisasjonerMedTilgang.filter((organisasjonMedTilgang) => {
+            return (organisasjonMedTilgang.OrganizationNumber === valgtOrganisasjon.OrganizationNumber);
+        }).length >= 1;
+
+        if (organisasjonerMedTilgang && organisasjonerMedTilgang.length > 0 && valgtOrganisasjon !== tomaAltinnOrganisasjon) {
+            if (valgtOrgHarTilgang()) {
+                hentKlager(valgtOrganisasjon.OrganizationNumber)
+                    .then((skjemaer) => {
+                        console.log('respons:', skjemaer);
+                        setLasteStateKlager(APISTATUS.OK);
+                        setSkjemaer(skjemaer);
+                        console.log('skjemaer.length', skjemaer.length);
+                    })
+                    .catch(() => setLasteStateKlager(APISTATUS.FEILET))
+                setTilgangState(TILGANGSSTATE.TILGANG);;
             } else {
                 setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
             }
-        }
-        if (organisasjonerMedTilgang && organisasjonerMedTilgang.length === 0) {
-            setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
         }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
@@ -120,46 +121,49 @@ const App = () => {
                         )}
                         {organisasjonerLasteState === APISTATUS.OK ? (
                             <>
-                                {tilgangState !== TILGANGSSTATE.LASTER && (
+                                {tilgangState !== TILGANGSSTATE.LASTER ? (
                                     <>
-                                        <Route exact path="/">
-                                            {tilgangState === TILGANGSSTATE.TILGANG &&
-                                            skjemaer.length > 0 && <Redirect to="/skjema/kvitteringsside"  />
-                                            }
-
-                                            {tilgangState === TILGANGSSTATE.TILGANG &&
-                                            skjemaer.length === 0 && <Redirect to="/skjema"  />
-                                            }
-
-                                            {tilgangState === TILGANGSSTATE.IKKE_TILGANG && (
-                                                <IngenTilgangInfo
-                                                    valgtOrganisasjon={valgtOrganisasjon}
-                                                    bedrifterMedTilgang={
-                                                        organisasjonerMedTilgang &&
-                                                        organisasjonerMedTilgang.filter(
-                                                            (organisasjonMedTilgang) => {
-                                                                return (
-                                                                    organisasjonMedTilgang.OrganizationForm ===
-                                                                    'BEDR'
-                                                                );
-                                                            }
-                                                        )
+                                        {tilgangState === TILGANGSSTATE.TILGANG ? (
+                                            <>
+                                                <Route exact path="/">
+                                                    {lasteStateKlager === APISTATUS.OK &&
+                                                    skjemaer.length > 0 ? (
+                                                        <Redirect to="/skjema/kvitteringsside"/>
+                                                    ) : skjemaer.length === 0 && (lasteStateKlager === APISTATUS.OK || lasteStateKlager === APISTATUS.FEILET) ?(
+                                                        <Redirect to="/skjema"/>
+                                                    ) : <NavFrontendSpinner type="S" />
                                                     }
-                                                />
-                                            )}
-                                        </Route>
-                                        {tilgangState === TILGANGSSTATE.TILGANG && (
-                                            <Route exact path="/skjema">
-                                                <Skjema valgtOrganisasjon={valgtOrganisasjon} />
-                                            </Route>
-                                        )}
-                                        <Route exact path="/skjema/kvitteringsside">
-                                            <Kvitteringsside
+                                                </Route>
+
+                                                <Route exact path="/skjema">
+                                                    <Skjema valgtOrganisasjon={valgtOrganisasjon} />
+                                                </Route>
+
+                                                <Route exact path="/skjema/kvitteringsside">
+                                                    <Kvitteringsside
+                                                        valgtOrganisasjon={valgtOrganisasjon}
+                                                        skjemaer={skjemaer}
+                                                    />
+                                                </Route>
+                                            </>
+                                        ) : tilgangState === TILGANGSSTATE.IKKE_TILGANG ? (
+                                            <IngenTilgangInfo
                                                 valgtOrganisasjon={valgtOrganisasjon}
-                                                skjemaer={skjemaer}
+                                                bedrifterMedTilgang={
+                                                    organisasjonerMedTilgang &&
+                                                    organisasjonerMedTilgang.filter(
+                                                        (organisasjonMedTilgang) => {
+                                                            return (
+                                                                organisasjonMedTilgang.OrganizationForm === 'BEDR'
+                                                            );
+                                                        }
+                                                    )
+                                                }
                                             />
-                                        </Route>
+                                        ) : <NavFrontendSpinner type="S" /> }
                                     </>
+                                ) : (
+                                    <NavFrontendSpinner type="S" />
                                 )}
                             </>
                         ) : organisasjonerLasteState === APISTATUS.LASTER ? (

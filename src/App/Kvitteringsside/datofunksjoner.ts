@@ -28,7 +28,12 @@ export const finnMaaned = (month: number): string => {
     return (month + 1).toString();
 };
 
-export const dato = () => {
+/* export const dato = () => {
     const dagensdato = new Date();
     return dagensdato.getDate() + '. ' + finnMaaned(dagensdato.getMonth()) + ' ' + dagensdato.getFullYear();
+}; */
+
+export const dato = (date?: string) => {
+    const dato = date ? new Date(date) : new Date();
+    return dato.getDate() + '. ' + finnMaaned(dato.getMonth()) + ' ' + dato.getFullYear();
 };

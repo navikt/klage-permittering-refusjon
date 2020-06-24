@@ -6,7 +6,7 @@ import { basename, minSideArbeidsgiverUrl } from '../../lenker';
 import { dato } from './datofunksjoner';
 import KvitteringssideIkon from './KvitteringssideIkon';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
-import {Klagetype, SkjemaContext, tomtSkjema} from '../Skjema/skjemaContext';
+import { Klagetype, SkjemaContext, tomtSkjema } from '../Skjema/skjemaContext';
 import { Organisasjon } from '../../api/altinnApi';
 import { Klage } from '../../api/klageApi';
 import './Kvitteringsside.less';
@@ -26,7 +26,6 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
         context.skjema.klagetype === Klagetype.KLAGE ? 'Klage' : 'Endring av opplysninger';
 
     const orgNr = valgtOrganisasjon.OrganizationNumber;
-    // let date = new Date();
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -43,10 +42,10 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
 
-            {context.skjema !== tomtSkjema &&
+            {context.skjema !== tomtSkjema && (
                 <div className="kvitteringsside__oppsummering">
                     <div className="oppsummering-tittel">
-                        <KvitteringssideIkon/>
+                        <KvitteringssideIkon />
                         <Systemtittel className="oppsummering-overskrift">
                             {`${typeskjema} sendt inn ${dato()}`}
                         </Systemtittel>
@@ -54,13 +53,16 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
 
                     <Normaltekst className="bedriftinfo-tittel bold">Virksomhet:</Normaltekst>
                     <Normaltekst className="bedriftinfo-navn">{valgtOrganisasjon.Name}</Normaltekst>
-                    <Normaltekst
-                        className="bedriftinfo-orgnr">{`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}</Normaltekst>
+                    <Normaltekst className="bedriftinfo-orgnr">{`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}</Normaltekst>
 
-                    <Normaltekst className="referansekode bold">Referansekode for vedtak:</Normaltekst>
+                    <Normaltekst className="referansekode bold">
+                        Referansekode for vedtak:
+                    </Normaltekst>
                     <Normaltekst>{context.skjema.referansekode}</Normaltekst>
 
-                    <Normaltekst className="kontaktopplysninger bold">Kontaktopplysninger:</Normaltekst>
+                    <Normaltekst className="kontaktopplysninger bold">
+                        Kontaktopplysninger:
+                    </Normaltekst>
                     <Normaltekst className="kontaktopplysninger-navn">
                         {context.skjema.navn}
                     </Normaltekst>
@@ -71,7 +73,7 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
                         {context.skjema.telefonnr}
                     </Normaltekst>
                 </div>
-            }
+            )}
 
             <div className="kvitteringsside__ny-klage-knapp">
                 <Flatknapp
@@ -86,13 +88,15 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
 
             {skjemaer.length > 0 && (
                 <div className="kvitteringsside__innsendte-skjema">
-                    <Undertittel className="kvitteringsside__innsendte-skjema-tittel">Tidligere innsendte skjema</Undertittel>
+                    <Undertittel className="kvitteringsside__innsendte-skjema-tittel">
+                        Tidligere innsendte skjema
+                    </Undertittel>
                     {skjemaer.map((skjema) => (
                         <div className="kvitteringsside__oppsummering innsendte-skjema">
                             <div className="oppsummering-tittel">
                                 <KvitteringssideIkon />
                                 <Systemtittel className="oppsummering-overskrift">
-                                    {'Klage/endring sendt inn ' + skjema.opprettet}
+                                    {'Klage/endring sendt inn ' + dato(skjema.opprettet)}
                                 </Systemtittel>
                             </div>
 

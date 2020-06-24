@@ -24,7 +24,7 @@ const klageRespons: Klage[] = [
         telefonnr: '12345678',
         tekst: 'Jeg klager på ditten og datten',
         klagetype: 'ENDRING',
-        opprettet: '010780',
+        opprettet: '2020-06-09T13:41:59.792247',
     },
     {
         orgnr: '12345678',
@@ -34,6 +34,6 @@ const klageRespons: Klage[] = [
         telefonnr: '12345678',
         tekst: 'Klage og endring og bla bla',
         klagetype: 'KLAGE',
-        opprettet: '010780',
+        opprettet: '2020-05-16T13:41:59.792247',
     },
 ];
