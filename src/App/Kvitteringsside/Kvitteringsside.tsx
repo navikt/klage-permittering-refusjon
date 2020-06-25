@@ -27,6 +27,17 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
 
     const orgNr = valgtOrganisasjon.OrganizationNumber;
 
+    const compare = (a: Klage, b: Klage) => {
+        if (a.opprettet && b.opprettet) {
+            if (a.opprettet < b.opprettet) {
+                return 1;
+            } else if (a.opprettet > b.opprettet) {
+                return -1;
+            }
+        }
+        return 0;
+    };
+
     useEffect(() => {
         window.scrollTo(0, 0);
     });
@@ -91,7 +102,7 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
                     <Undertittel className="kvitteringsside__innsendte-skjema-tittel">
                         Tidligere innsendte skjema
                     </Undertittel>
-                    {skjemaer.sort().map((skjema) => {
+                    {skjemaer.sort(compare).map((skjema) => {
                         const klagetypetekst = skjema.klagetype === 'ENDRING' ? 'Endring' : 'Klage';
                         return (
                             <div key={skjema.opprettet}>
