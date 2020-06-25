@@ -91,12 +91,14 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
                     <Undertittel className="kvitteringsside__innsendte-skjema-tittel">
                         Tidligere innsendte skjema
                     </Undertittel>
-                    {skjemaer.map((skjema) => (
+                    {skjemaer.sort().map((skjema) => {
+                        const klagetypetekst = skjema.klagetype === 'ENDRING' ? 'Endring' : 'Klage';
+                        return (
                         <div className="kvitteringsside__oppsummering innsendte-skjema">
                             <div className="oppsummering-tittel">
                                 <KvitteringssideIkon />
                                 <Systemtittel className="oppsummering-overskrift">
-                                    {'Klage/endring sendt inn ' + dato(skjema.opprettet)}
+                                    {`${klagetypetekst} sendt inn ${dato(skjema.opprettet)}`}
                                 </Systemtittel>
                             </div>
 
@@ -126,7 +128,8 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
                                 {skjema.telefonnr}
                             </Normaltekst>
                         </div>
-                    ))}
+                        )}
+                    )}
                 </div>
             )}
         </div>

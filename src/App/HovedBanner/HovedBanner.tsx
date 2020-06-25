@@ -15,7 +15,7 @@ const Banner: FunctionComponent<Props> = (props) => {
     const { history } = props;
 
     const sjekkLokasjon = (organisasjon: Organisasjon) => {
-        const url = window.location.pathname;
+        const url = window.location.href;
         if (url.indexOf('/skjema/kvitteringsside') >= 0) {
             redirectTilStart(organisasjon);
         }
