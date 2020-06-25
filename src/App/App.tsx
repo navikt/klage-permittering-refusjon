@@ -147,7 +147,7 @@ const App = () => {
                                                 </Route>
 
                                                 <Route exact path="/skjema">
-                                                    <Skjema valgtOrganisasjon={valgtOrganisasjon} />
+                                                    <Skjema valgtOrganisasjon={valgtOrganisasjon} skjemaer={skjemaer} />
                                                 </Route>
 
                                                 <Route exact path="/skjema/kvitteringsside">

@@ -94,42 +94,46 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
                     {skjemaer.sort().map((skjema) => {
                         const klagetypetekst = skjema.klagetype === 'ENDRING' ? 'Endring' : 'Klage';
                         return (
-                        <div className="kvitteringsside__oppsummering innsendte-skjema">
-                            <div className="oppsummering-tittel">
-                                <KvitteringssideIkon />
-                                <Systemtittel className="oppsummering-overskrift">
-                                    {`${klagetypetekst} sendt inn ${dato(skjema.opprettet)}`}
-                                </Systemtittel>
+                            <div key={skjema.opprettet}>
+                                <div className="kvitteringsside__oppsummering innsendte-skjema">
+                                    <div className="oppsummering-tittel">
+                                        <KvitteringssideIkon />
+                                        <Systemtittel className="oppsummering-overskrift">
+                                            {`${klagetypetekst} sendt inn ${dato(
+                                                skjema.opprettet
+                                            )}`}
+                                        </Systemtittel>
+                                    </div>
+
+                                    <Normaltekst className="bedriftinfo-tittel bold">
+                                        Virksomhet:
+                                    </Normaltekst>
+                                    <Normaltekst className="bedriftinfo-navn">
+                                        {valgtOrganisasjon.Name}
+                                    </Normaltekst>
+                                    <Normaltekst className="bedriftinfo-orgnr">{`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}</Normaltekst>
+
+                                    <Normaltekst className="referansekode bold">
+                                        Referansekode for vedtak:
+                                    </Normaltekst>
+                                    <Normaltekst>{skjema.referansekode}</Normaltekst>
+
+                                    <Normaltekst className="kontaktopplysninger bold">
+                                        Kontaktopplysninger:
+                                    </Normaltekst>
+                                    <Normaltekst className="kontaktopplysninger-navn">
+                                        {skjema.navn}
+                                    </Normaltekst>
+                                    <Normaltekst className="kontaktopplysninger-epost">
+                                        {skjema.epost}
+                                    </Normaltekst>
+                                    <Normaltekst className="kontaktopplysninger-telefon">
+                                        {skjema.telefonnr}
+                                    </Normaltekst>
+                                </div>
                             </div>
-
-                            <Normaltekst className="bedriftinfo-tittel bold">
-                                Virksomhet:
-                            </Normaltekst>
-                            <Normaltekst className="bedriftinfo-navn">
-                                {valgtOrganisasjon.Name}
-                            </Normaltekst>
-                            <Normaltekst className="bedriftinfo-orgnr">{`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}</Normaltekst>
-
-                            <Normaltekst className="referansekode bold">
-                                Referansekode for vedtak:
-                            </Normaltekst>
-                            <Normaltekst>{skjema.referansekode}</Normaltekst>
-
-                            <Normaltekst className="kontaktopplysninger bold">
-                                Kontaktopplysninger:
-                            </Normaltekst>
-                            <Normaltekst className="kontaktopplysninger-navn">
-                                {skjema.navn}
-                            </Normaltekst>
-                            <Normaltekst className="kontaktopplysninger-epost">
-                                {skjema.epost}
-                            </Normaltekst>
-                            <Normaltekst className="kontaktopplysninger-telefon">
-                                {skjema.telefonnr}
-                            </Normaltekst>
-                        </div>
-                        )}
-                    )}
+                        );
+                    })}
                 </div>
             )}
         </div>

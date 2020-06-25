@@ -6,7 +6,7 @@ import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, RadioPanelGruppe, Textarea } from 'nav-frontend-skjema';
 import { minSideArbeidsgiverUrl } from '../../lenker';
 import { Organisasjon } from '../../api/altinnApi';
-import { sendKlage } from '../../api/klageApi';
+import {Klage, sendKlage} from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import { Klagetype, SkjemaContext } from './skjemaContext';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -20,9 +20,10 @@ import './Skjema.less';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
+    skjemaer: Klage[];
 }
 
-const Skjema = ({ valgtOrganisasjon }: Props) => {
+const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
     const context = useContext(SkjemaContext);
     const history = useHistory();
     const [feilmeldingSendInn, setFeilmeldingSendInn] = useState('');
@@ -210,7 +211,9 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                         setFeilmeldingSendInn('');
                         setFeilmeldingEpost('');
                         setFeilmeldingTelefonNr('');
-                        window.location.href = minSideArbeidsgiverUrl(
+                        if (skjemaer.length > 0) {
+                            window.location.href = `/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
+                        } else window.location.href = minSideArbeidsgiverUrl(
                             valgtOrganisasjon.OrganizationNumber
                         );
                     }}
