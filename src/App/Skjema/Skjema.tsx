@@ -4,7 +4,7 @@ import Lenke from 'nav-frontend-lenker';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, RadioPanelGruppe, Textarea } from 'nav-frontend-skjema';
-import { minSideArbeidsgiverUrl } from '../../lenker';
+import {basename, minSideArbeidsgiverUrl} from '../../lenker';
 import { Organisasjon } from '../../api/altinnApi';
 import {Klage, sendKlage} from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
@@ -212,7 +212,7 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
                         setFeilmeldingEpost('');
                         setFeilmeldingTelefonNr('');
                         if (skjemaer.length > 0) {
-                            window.location.href = `/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
+                            window.location.href = `${basename}/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
                         } else window.location.href = minSideArbeidsgiverUrl(
                             valgtOrganisasjon.OrganizationNumber
                         );
