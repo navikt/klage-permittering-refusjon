@@ -43,6 +43,7 @@ const App = () => {
     );
     const [lasteStateKlager, setLasteStateKlager] = useState<APISTATUS>(APISTATUS.LASTER);
     const [skjemaer, setSkjemaer] = useState<Klage[]>([]);
+    const orgNrDel = valgtOrganisasjon.OrganizationNumber ? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber : '';
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -138,9 +139,9 @@ const App = () => {
                                                 <Route exact path="/">
                                                     <>
                                                         {skjemaer.length > 0 ? (
-                                                            <Redirect to="/skjema/kvitteringsside" />
+                                                            <Redirect to={`/skjema/kvitteringsside${orgNrDel}`} />
                                                         ) : (
-                                                            <Redirect to="/skjema/" />
+                                                            <Redirect to={`/skjema${orgNrDel}`} />
                                                         )}
                                                     </>
                                                 </Route>
