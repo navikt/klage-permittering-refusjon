@@ -4,9 +4,9 @@ import Lenke from 'nav-frontend-lenker';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, RadioPanelGruppe, Textarea } from 'nav-frontend-skjema';
-import {basename, minSideArbeidsgiverUrl} from '../../lenker';
+import { basename, minSideArbeidsgiverUrl } from '../../lenker';
 import { Organisasjon } from '../../api/altinnApi';
-import {Klage, sendKlage} from '../../api/klageApi';
+import { Klage, sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import { Klagetype, SkjemaContext } from './skjemaContext';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -82,14 +82,14 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
                 <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
                     Min side – arbeidsgiver
                 </Lenke>
-                {' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
+                {
+                    ' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'
+                }
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
             <div className="skjema__bedriftinfo">
-                <Normaltekst className="bedriftinfo-tittel bold">
-                    Virksomhet
-                </Normaltekst>
+                <Normaltekst className="bedriftinfo-tittel bold">Virksomhet</Normaltekst>
                 <Normaltekst className="bedriftinfo-navn">{valgtOrganisasjon.Name}</Normaltekst>
                 <Normaltekst className="bedriftinfo-orgnr">
                     {`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}
@@ -212,10 +212,11 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
                         setFeilmeldingEpost('');
                         setFeilmeldingTelefonNr('');
                         if (skjemaer.length > 0) {
-                            window.location.href = `${basename}/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
-                        } else window.location.href = minSideArbeidsgiverUrl(
-                            valgtOrganisasjon.OrganizationNumber
-                        );
+                            window.location.href = `${basename}/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`;
+                        } else
+                            window.location.href = minSideArbeidsgiverUrl(
+                                valgtOrganisasjon.OrganizationNumber
+                            );
                     }}
                 >
                     Avbryt

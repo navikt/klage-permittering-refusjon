@@ -27,7 +27,6 @@ enum TILGANGSSTATE {
 }
 
 const App = () => {
-    // const context = useContext(SkjemaContext);
     const SERVICEKODEINNTEKTSMELDING = '4936';
     const SERVICEEDITIONINNTEKTSMELDING = '1';
     const [organisasjonerLasteState, setOrganisasjonerLasteState] = useState<APISTATUS>(
