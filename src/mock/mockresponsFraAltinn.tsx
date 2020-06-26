@@ -122,6 +122,7 @@ export const testRespons: Organisasjon[] = [
         Status: 'Active',
     },
 ];
+
 export const tilgangTilAtinntjenesteRespons: Organisasjon[] = [
     {
         Name: 'MALMEFJORDEN OG RIDABU REGNSKAP',

@@ -111,7 +111,10 @@ const App = () => {
                 setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
                 setLasteStateKlager(APISTATUS.OK);
             }
-        } else setLasteStateKlager(APISTATUS.OK);
+        } else {
+            setLasteStateKlager(APISTATUS.OK);
+            setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
+        }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
     useEffect(() => {
