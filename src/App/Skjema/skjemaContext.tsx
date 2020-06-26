@@ -14,7 +14,7 @@ export interface Klageskjema {
     klagetype: string;
 }
 
-const tomtSkjema: Klageskjema = {
+export const tomtSkjema: Klageskjema = {
     referansekode: '',
     tekst: '',
     navn: '',

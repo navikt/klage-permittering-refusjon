@@ -1,12 +1,10 @@
-import { backendUrl } from '../lenker';
+import { backendUrl, basename } from '../lenker';
+import { FetchError } from './api-utils';
+import { Klageskjema } from '../App/Skjema/skjemaContext';
 
-interface Klage {
+export interface Klage extends Klageskjema {
     orgnr: string;
-    referansekode: string;
-    navn: string;
-    epost: string;
-    telefonnr: string;
-    tekst: string;
+    opprettet?: string;
 }
 
 export const sendKlage = async (data: Klage) => {
@@ -21,3 +19,12 @@ export const sendKlage = async (data: Klage) => {
     });
     return respons.status;
 };
+
+export async function hentKlager(orgnr: string): Promise<Klage[]> {
+    let respons = await fetch(`${basename}/api/${orgnr}/klage`);
+    if (respons.ok) {
+        return await respons.json();
+    } else {
+        throw new FetchError(respons.statusText || respons.type, respons);
+    }
+}

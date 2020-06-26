@@ -4,9 +4,9 @@ import Lenke from 'nav-frontend-lenker';
 import { Feilmelding, Normaltekst } from 'nav-frontend-typografi';
 import { Flatknapp, Hovedknapp } from 'nav-frontend-knapper';
 import { Input, RadioPanelGruppe, Textarea } from 'nav-frontend-skjema';
-import { minSideArbeidsgiverUrl } from '../../lenker';
+import { basename, minSideArbeidsgiverUrl } from '../../lenker';
 import { Organisasjon } from '../../api/altinnApi';
-import { sendKlage } from '../../api/klageApi';
+import { Klage, sendKlage } from '../../api/klageApi';
 import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble';
 import { Klagetype, SkjemaContext } from './skjemaContext';
 import AlertStripe from 'nav-frontend-alertstriper';
@@ -20,9 +20,10 @@ import './Skjema.less';
 
 interface Props {
     valgtOrganisasjon: Organisasjon;
+    skjemaer: Klage[];
 }
 
-const Skjema = ({ valgtOrganisasjon }: Props) => {
+const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
     const context = useContext(SkjemaContext);
     const history = useHistory();
     const [feilmeldingSendInn, setFeilmeldingSendInn] = useState('');
@@ -58,7 +59,7 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                         loggKlageSendtInn();
                         loggKlageEllerEndring(context.skjema.klagetype);
                         history.push(
-                            `/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
+                            `/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
                         );
                     } else {
                         setInnsendingMislyktes(true);
@@ -81,14 +82,14 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                 <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
                     Min side – arbeidsgiver
                 </Lenke>
-                {' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
+                {
+                    ' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'
+                }
             </Normaltekst>
 
             <VeilederSnakkeboble tekst={snakkebobletekst} />
             <div className="skjema__bedriftinfo">
-                <Normaltekst className="bedriftinfo-tittel bold">
-                    Virksomhet
-                </Normaltekst>
+                <Normaltekst className="bedriftinfo-tittel bold">Virksomhet</Normaltekst>
                 <Normaltekst className="bedriftinfo-navn">{valgtOrganisasjon.Name}</Normaltekst>
                 <Normaltekst className="bedriftinfo-orgnr">
                     {`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}
@@ -210,9 +211,12 @@ const Skjema = ({ valgtOrganisasjon }: Props) => {
                         setFeilmeldingSendInn('');
                         setFeilmeldingEpost('');
                         setFeilmeldingTelefonNr('');
-                        window.location.href = minSideArbeidsgiverUrl(
-                            valgtOrganisasjon.OrganizationNumber
-                        );
+                        if (skjemaer.length > 0) {
+                            window.location.href = `${basename}/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`;
+                        } else
+                            window.location.href = minSideArbeidsgiverUrl(
+                                valgtOrganisasjon.OrganizationNumber
+                            );
                     }}
                 >
                     Avbryt
