@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Redirect, Route} from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import {AlertStripeFeil} from 'nav-frontend-alertstriper';
 import {
     hentOrganisasjonerFraAltinn,
     hentOrganisasjonerMedTilgangTilAltinntjeneste,
@@ -19,6 +18,8 @@ import IngenTilgangInfo from './IngenTilgangInfo/IngenTilgangInfo';
 import {loggBrukerLoggetPa} from '../utils/amplitudefunksjonerForLogging';
 import {SkjemaContextProvider} from './Skjema/skjemaContext';
 import './App.less';
+import {ManglerTilgangContainer} from "./ManglerTilgangContainer/ManglerTilgangContainer";
+import {AlertStripeFeil} from "nav-frontend-alertstriper";
 
 enum TILGANGSSTATE {
     LASTER,
@@ -106,9 +107,9 @@ const App = () => {
                 setTilgangState(TILGANGSSTATE.TILGANG);
             } else {
                 setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
-                setLasteStateKlager(APISTATUS.FEILET);
+                setLasteStateKlager(APISTATUS.OK);
             }
-        }
+        } else setLasteStateKlager(APISTATUS.OK)
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
     useEffect(() => {
@@ -128,7 +129,7 @@ const App = () => {
                                 }
                             />
                         )}
-                        {organisasjonerLasteState === APISTATUS.OK ? (
+                        {organisasjonerLasteState === APISTATUS.OK && organisasjoner.length ? (
                             <>
                                 {tilgangState !== TILGANGSSTATE.LASTER &&
                                 lasteStateKlager !== APISTATUS.LASTER ? (
@@ -179,6 +180,8 @@ const App = () => {
                                     <NavFrontendSpinner type="S" />
                                 )}
                             </>
+                        ) : organisasjonerLasteState === APISTATUS.OK && organisasjoner.length === 0 ? (
+                            <ManglerTilgangContainer />
                         ) : organisasjonerLasteState === APISTATUS.LASTER ? (
                             <NavFrontendSpinner type="S" />
                         ) : (
