@@ -1,24 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {BrowserRouter as Router, Redirect, Route} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom';
 import NavFrontendSpinner from 'nav-frontend-spinner';
-import {AlertStripeFeil} from 'nav-frontend-alertstriper';
 import {
     hentOrganisasjonerFraAltinn,
     hentOrganisasjonerMedTilgangTilAltinntjeneste,
     Organisasjon,
     tomaAltinnOrganisasjon,
 } from '../api/altinnApi';
-import {basename} from '../lenker';
-import {APISTATUS} from '../api/api-utils';
-import {hentKlager, Klage} from '../api/klageApi';
+import { basename } from '../lenker';
+import { APISTATUS } from '../api/api-utils';
+import { hentKlager, Klage } from '../api/klageApi';
 import LoginBoundary from './LogInn/LoginBoundary';
 import HovedBanner from './HovedBanner/HovedBanner';
 import Skjema from './Skjema/Skjema';
 import Kvitteringsside from './Kvitteringsside/Kvitteringsside';
 import IngenTilgangInfo from './IngenTilgangInfo/IngenTilgangInfo';
-import {loggBrukerLoggetPa} from '../utils/amplitudefunksjonerForLogging';
-import {SkjemaContextProvider} from './Skjema/skjemaContext';
+import { loggBrukerLoggetPa } from '../utils/amplitudefunksjonerForLogging';
+import { SkjemaContextProvider } from './Skjema/skjemaContext';
 import './App.less';
+import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgangContainer';
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 
 enum TILGANGSSTATE {
     LASTER,
@@ -42,7 +43,9 @@ const App = () => {
     );
     const [lasteStateKlager, setLasteStateKlager] = useState<APISTATUS>(APISTATUS.LASTER);
     const [skjemaer, setSkjemaer] = useState<Klage[]>([]);
-    const orgNrDel = valgtOrganisasjon.OrganizationNumber ? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber : '';
+    const orgNrDel = valgtOrganisasjon.OrganizationNumber
+        ? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber
+        : '';
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -106,8 +109,11 @@ const App = () => {
                 setTilgangState(TILGANGSSTATE.TILGANG);
             } else {
                 setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
-                setLasteStateKlager(APISTATUS.FEILET);
+                setLasteStateKlager(APISTATUS.OK);
             }
+        } else {
+            setLasteStateKlager(APISTATUS.OK);
+            setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
         }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
 
@@ -128,7 +134,7 @@ const App = () => {
                                 }
                             />
                         )}
-                        {organisasjonerLasteState === APISTATUS.OK ? (
+                        {organisasjonerLasteState === APISTATUS.OK && organisasjoner.length ? (
                             <>
                                 {tilgangState !== TILGANGSSTATE.LASTER &&
                                 lasteStateKlager !== APISTATUS.LASTER ? (
@@ -138,7 +144,9 @@ const App = () => {
                                                 <Route exact path="/">
                                                     <>
                                                         {skjemaer.length > 0 ? (
-                                                            <Redirect to={`/skjema/kvitteringsside${orgNrDel}`} />
+                                                            <Redirect
+                                                                to={`/skjema/kvitteringsside${orgNrDel}`}
+                                                            />
                                                         ) : (
                                                             <Redirect to={`/skjema${orgNrDel}`} />
                                                         )}
@@ -146,7 +154,10 @@ const App = () => {
                                                 </Route>
 
                                                 <Route exact path="/skjema">
-                                                    <Skjema valgtOrganisasjon={valgtOrganisasjon} skjemaer={skjemaer} />
+                                                    <Skjema
+                                                        valgtOrganisasjon={valgtOrganisasjon}
+                                                        skjemaer={skjemaer}
+                                                    />
                                                 </Route>
 
                                                 <Route exact path="/skjema/kvitteringsside">
@@ -179,6 +190,9 @@ const App = () => {
                                     <NavFrontendSpinner type="S" />
                                 )}
                             </>
+                        ) : organisasjonerLasteState === APISTATUS.OK &&
+                          organisasjoner.length === 0 ? (
+                            <ManglerTilgangContainer />
                         ) : organisasjonerLasteState === APISTATUS.LASTER ? (
                             <NavFrontendSpinner type="S" />
                         ) : (
