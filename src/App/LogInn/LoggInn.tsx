@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { Normaltekst, Innholdstittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import environment from '../../utils/environment';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
@@ -20,8 +20,10 @@ export const LoggInn: FunctionComponent = () => {
         <div className="innloggingsside">
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
+                <Innholdstittel>Endre opplysninger eller klage på vedtak</Innholdstittel>
                 <Normaltekst className="innloggingsside__sidetittel">
-                    Her kan du som arbeidsgiver endre innsendte opplysninger eller klage på vedtaket knyttet til refusjon av forskuttert lønn ved permittering.
+                    Her kan du som arbeidsgiver endre innsendte opplysninger eller klage på vedtaket
+                    knyttet til refusjon av forskuttert lønn ved permittering.
                 </Normaltekst>
 
                 <Hovedknapp className="innloggingsside__loginKnapp" onClick={redirectTilLogin}>

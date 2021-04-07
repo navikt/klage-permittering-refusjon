@@ -11,11 +11,9 @@ const LoggInnBanner = () => {
             <div className="logg-inn-banner__container">
                 <div className="logg-inn-banner__tittel-og-tekst">
                     <Sidetittel className="tittel">
-                        Endringer av opplysninger /klage på vedtak for refusjon av lønn ved permittering
+                        Lønnskompensasjon og refusjon for permitterte
                     </Sidetittel>
-                    <Ingress className="ingress">
-                        Innloggede tjenester for arbeidsgiver
-                    </Ingress>
+                    <Ingress className="ingress">For arbeidsgivere</Ingress>
                 </div>
                 <div className="logg-inn-banner__bilder">
                     <img src={medhjelm} alt="" />
