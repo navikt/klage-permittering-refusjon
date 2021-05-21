@@ -19,8 +19,7 @@ interface Props {
 const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
     const context = useContext(SkjemaContext);
 
-    const snakkebobletekst = `Takk for din henvendelse. Du får beskjed per post til virksomhetens adresse når vi har
-         behandlet saken din. Vi kontakter deg hvis vi har noen spørsmål i saken.`;
+    const snakkebobletekst = `Takk for din henvendelse. Vi tar kontakt med virksomheten når vi har behandlet saken din.`;
 
     const typeskjema =
         context.skjema.klagetype === Klagetype.KLAGE ? 'Klage' : 'Endring av opplysninger';
@@ -47,7 +46,7 @@ const Kvitteringsside = ({ valgtOrganisasjon, skjemaer }: Props) => {
             <Normaltekst className="brodsmule">
                 <Lenke href={minSideArbeidsgiverUrl(orgNr)}>Min side – arbeidsgiver</Lenke>
                 {
-                    ' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'
+                    ' / Ettersende opplysninger eller klage på vedtak om lønnskompensasjon'
                 }
             </Normaltekst>
 

@@ -20,7 +20,7 @@ const IngenTilgangInfo = ({ bedrifterMedTilgang, valgtOrganisasjon }: TilgangsIn
                 <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
                     Min side – arbeidsgiver
                 </Lenke>
-                {' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'}
+                {' / Ettersende opplysninger eller klage på vedtak om lønnskompensasjon'}
             </Normaltekst>
             <div className="ingen-tilgang">
                 <div className="ingen-tilgang-header">

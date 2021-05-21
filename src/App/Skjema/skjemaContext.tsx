@@ -2,7 +2,8 @@ import React, { createContext, FunctionComponent, useState } from 'react';
 
 export enum Klagetype {
     KLAGE = 'KLAGE',
-    ENDRING = 'ENDRING'
+    ENDRING = 'ENDRING',
+    ANNET = 'ANNET'
 }
 
 export interface Klageskjema {

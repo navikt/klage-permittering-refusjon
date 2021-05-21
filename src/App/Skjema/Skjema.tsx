@@ -34,8 +34,8 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
     const snakkebobletekst = (
         <>
             <Normaltekst className="skjema__snakkeboble-avsnitt">
-                Hvis du la inn feil opplysninger og ønsker å endre innsendte opplysninger trenger vi
-                fødselsnummer og beløp på de ansatte det gjelder.
+                Hvis du ønsker å ettersende opplysninger om permitteringen til en enkelt ansatt trenger vi
+                fødselsnummer på den ansatte det gjelder.
             </Normaltekst>
             <Normaltekst>
                 Hvis du ønsker å klage, legg merke til at du ikke kan klage på selve regelverket for
@@ -76,49 +76,8 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
     };
 
-    return (
-        <div className="skjema">
-            <Normaltekst className="brodsmule">
-                <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
-                    Min side – arbeidsgiver
-                </Lenke>
-                {
-                    ' / Endringer av opplysninger eller klage på vedtak for refusjon av lønn ved permittering'
-                }
-            </Normaltekst>
-
-            <VeilederSnakkeboble tekst={snakkebobletekst} />
-            <div className="skjema__bedriftinfo">
-                <Normaltekst className="bedriftinfo-tittel bold">Virksomhet</Normaltekst>
-                <Normaltekst className="bedriftinfo-navn">{valgtOrganisasjon.Name}</Normaltekst>
-                <Normaltekst className="bedriftinfo-orgnr">
-                    {`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}
-                </Normaltekst>
-            </div>
-
-            <div className="skjema__type">
-                <RadioPanelGruppe
-                    name="samplename"
-                    legend="Dette gjelder"
-                    radios={[
-                        {
-                            label: 'Endring av innsendte opplysninger',
-                            value: Klagetype.ENDRING,
-                            id: Klagetype.ENDRING,
-                        },
-                        {
-                            label: 'Klage på vedtak',
-                            value: Klagetype.KLAGE,
-                            id: Klagetype.KLAGE,
-                        },
-                    ]}
-                    checked={context.skjema.klagetype}
-                    onChange={(event, value) => {
-                        context.settSkjemaVerdi('klagetype', value);
-                    }}
-                />
-            </div>
-
+    const skjemaInnhold = () => 
+        <>
             <div className="skjema__vedtakskode">
                 <Input
                     className="skjema__input-felt"
@@ -135,7 +94,7 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
                 <Textarea
                     maxLength={0}
                     label="Beskriv hva saken gjelder"
-                    description="For endring av innsendte opplysninger, oppgi fødselsnummer og beløp for de ansatte det gjelder. Hvis det er en klage, beskriv hva du ønsker å klage på. Ikke del sensitive opplysninger her."
+                    description="Skal du ettersende opplysninger, oppgi fødselsnummer for de ansatte det gjelder. Hvis det er en klage, beskriv hva du ønsker å klage på. Ikke del sensitive opplysninger her."
                     value={context.skjema.tekst}
                     onChange={(event: any) => {
                         context.settSkjemaVerdi('tekst', event.currentTarget.value);
@@ -222,6 +181,63 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
                     Avbryt
                 </Flatknapp>
             </div>
+        </>
+
+    return (
+        <div className="skjema">
+            <Normaltekst className="brodsmule">
+                <Lenke href={minSideArbeidsgiverUrl(valgtOrganisasjon.OrganizationNumber)}>
+                    Min side – arbeidsgiver
+                </Lenke>
+                {
+                    ' / Ettersende opplysninger eller klage på vedtak om lønnkompensasjon'
+                }
+            </Normaltekst>
+
+            <VeilederSnakkeboble tekst={snakkebobletekst} />
+            <div className="skjema__bedriftinfo">
+                <Normaltekst className="bedriftinfo-tittel bold">Virksomhet</Normaltekst>
+                <Normaltekst className="bedriftinfo-navn">{valgtOrganisasjon.Name}</Normaltekst>
+                <Normaltekst className="bedriftinfo-orgnr">
+                    {`Org. nr. ${valgtOrganisasjon.OrganizationNumber}`}
+                </Normaltekst>
+            </div>
+
+            <div className="skjema__type">
+                <RadioPanelGruppe
+                    name="samplename"
+                    legend="Dette gjelder"
+                    radios={[
+                        {
+                            label: 'Ettersende opplysninger til et vetdak om lønnskompensasjon',
+                            value: Klagetype.ENDRING,
+                            id: Klagetype.ENDRING,
+                        },
+                        {
+                            label: 'Klage på vedtak',
+                            value: Klagetype.KLAGE,
+                            id: Klagetype.KLAGE,
+                        },
+                        {
+                            label: 'Annet',
+                            value: Klagetype.ANNET,
+                            id: Klagetype.ANNET,
+                        },
+                    ]}
+                    checked={context.skjema.klagetype}
+                    onChange={(event, value) => {
+                        context.settSkjemaVerdi('klagetype', value);
+                    }}
+                />
+            </div>
+            { context.skjema.klagetype && context.skjema.klagetype !== Klagetype.ANNET
+                ? skjemaInnhold()
+                : context.skjema.klagetype === Klagetype.ANNET
+                    ? <AlertStripe className="skjema__alertstripe" type="info">
+                        Hvis henvendelsen gjelder noe annet må du ta kontakt med arbeidsgivertelefonen på 55 55 33 36
+                      </AlertStripe>
+                    : <></>
+            }
             {feilmeldingSendInn && (
                 <div className="feilmelding-send-inn">
                     <Feilmelding>{feilmeldingSendInn}</Feilmelding>
