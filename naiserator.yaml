@@ -2,12 +2,11 @@ apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
   name: klage-permittering-refusjon
-  namespace: arbeidsgiver
+  namespace: teamloennskomp
   labels:
-    team: arbeidsgiver
+    team: teamloennskomp
 spec:
   image: {{image}}
-  team: arbeidsgiver
   port: 3000
   ingresses:
     - '{{{ingress}}}'
