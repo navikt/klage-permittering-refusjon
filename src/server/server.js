@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const BASE_PATH = '/klage-permittering-refusjon';
+const BASE_PATH='/klage-permittering-refusjon';
 const server = express();
 const mustacheExpress = require('mustache-express');
 const getDecorator = require('./decorator');
@@ -10,7 +10,7 @@ const sonekrysning = require('./sonekrysningConfig.js');
 const veilarbStatusProxyConfig = require('./veilarbStatusProxyConfig');
 const createEnvSettingsFile = require('./envSettings.js');
 
-const buildPath = path.join(__dirname, '../../build');
+const buildPath = path.join(__dirname,'../../build');
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
 server.use(`${BASE_PATH}/veilarbstepup/status`, veilarbStatusProxyConfig);
@@ -22,13 +22,12 @@ server.set('views', buildPath);
 createEnvSettingsFile(path.resolve(`${buildPath}/static/js/settings.js`));
 
 server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
-    const loginUrl =
-        process.env.LOGIN_URL ||
+    const loginUrl = process.env.LOGIN_URL ||
         'http://localhost:8080/klage-permittering-refusjon-api/local/cookie?redirect=http://localhost:3000/klage-permittering-refusjon';
     res.redirect(loginUrl);
 });
 
-const renderApp = (decoratorFragments) =>
+const renderApp = decoratorFragments =>
     new Promise((resolve, reject) => {
         server.render('index.html', decoratorFragments, (err, html) => {
             if (err) {
@@ -39,9 +38,9 @@ const renderApp = (decoratorFragments) =>
         });
     });
 
-const startServer = (html) => {
-    console.log('start server');
-    server.use(BASE_PATH + '/static', express.static(buildPath, { index: false }));
+const startServer = html => {
+    console.log("start server");
+    server.use(BASE_PATH, express.static(buildPath,{index: false}));
 
     setInternalEndpoints();
     server.get(`${BASE_PATH}/*`, (req, res) => {
@@ -53,7 +52,7 @@ const startServer = (html) => {
 };
 
 const startMockServer = () => {
-    console.log('start mock server');
+    console.log("start mock server");
     server.use(BASE_PATH, express.static(buildPath));
 
     setInternalEndpoints();
@@ -67,20 +66,27 @@ const startMockServer = () => {
 };
 
 const setInternalEndpoints = () => {
-    server.get(`${BASE_PATH}/internal/isAlive`, (req, res) => res.sendStatus(200));
-    server.get(`${BASE_PATH}/internal/isReady`, (req, res) => res.sendStatus(200));
+    server.get(
+        `${BASE_PATH}/internal/isAlive`,
+        (req, res) => res.sendStatus(200)
+    );
+    server.get(
+        `${BASE_PATH}/internal/isReady`,
+        (req, res) => res.sendStatus(200)
+    );
 };
 
-if (process.env.REACT_APP_MOCK) {
+if(process.env.REACT_APP_MOCK) {
     startMockServer();
+
 } else {
     getDecorator()
-        .then(renderApp, (error) => {
+        .then(renderApp, error => {
             console.error('Kunne ikke hente dekoratør ', error);
             process.exit(1);
         })
-        .then(startServer, (error) => {
+        .then(startServer, error => {
             console.error('Kunne ikke rendre app ', error);
             process.exit(1);
-        });
+        })
 }
