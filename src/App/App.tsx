@@ -15,7 +15,6 @@ import HovedBanner from './HovedBanner/HovedBanner';
 import Skjema from './Skjema/Skjema';
 import Kvitteringsside from './Kvitteringsside/Kvitteringsside';
 import IngenTilgangInfo from './IngenTilgangInfo/IngenTilgangInfo';
-import { loggBrukerLoggetPa } from '../utils/amplitudefunksjonerForLogging';
 import { SkjemaContextProvider } from './Skjema/skjemaContext';
 import './App.less';
 import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgangContainer';
@@ -116,10 +115,6 @@ const App = () => {
             setTilgangState(TILGANGSSTATE.IKKE_TILGANG);
         }
     }, [valgtOrganisasjon, organisasjonerMedTilgang]);
-
-    useEffect(() => {
-        loggBrukerLoggetPa();
-    });
 
     return (
         <div className="app typo-normal">

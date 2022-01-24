@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { LoggInn } from './LoggInn';
-import environment from '../../utils/environment';
 import { sjekkInnlogget} from "../../api/altinnApi";
 
 export enum Tilgang {

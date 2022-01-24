@@ -11,11 +11,6 @@ import VeilederSnakkeboble from '../Komponenter/Snakkeboble/VeilederSnakkeboble'
 import { Klagetype, SkjemaContext } from './skjemaContext';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { erGyldigEpost, erGyldigTelefonNr, erSkjemaGyldig } from './SkjemaValidering';
-import {
-    loggKlageEllerEndring,
-    loggKlageSendtInn,
-    loggKlageSendtMislyktes,
-} from '../../utils/amplitudefunksjonerForLogging';
 import './Skjema.less';
 
 interface Props {
@@ -56,8 +51,6 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
             })
                 .then((status) => {
                     if (status === 201 || status === 200) {
-                        loggKlageSendtInn();
-                        loggKlageEllerEndring(context.skjema.klagetype);
                         history.push(
                             `/skjema/kvitteringsside/?bedrift=${valgtOrganisasjon.OrganizationNumber}`
                         );
@@ -65,12 +58,10 @@ const Skjema = ({ valgtOrganisasjon, skjemaer }: Props) => {
                         setInnsendingMislyktes(true);
                         const thisKnapp = document.getElementById('send-inn-hovedknapp');
                         thisKnapp && thisKnapp.removeAttribute('disabled');
-                        loggKlageSendtMislyktes();
                     }
                 })
                 .catch((e) => {
                     setInnsendingMislyktes(true);
-                    loggKlageSendtMislyktes();
                     thisKnapp && thisKnapp.removeAttribute('disabled');
                 });
         } else setFeilmeldingSendInn('Du må fylle ut alle feltene');
