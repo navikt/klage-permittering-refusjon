@@ -152,4 +152,7 @@ const apiTokenExchange = (app, tokenXClient, tokenXIssuer) => {
     );
 };
 
-module.exports = apiTokenExchange;
+module.exports = { 
+	apiTokenExchange,
+	getConfiguredTokenXClient
+}

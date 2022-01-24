@@ -3,10 +3,10 @@ const express = require('express');
 const BASE_PATH='/klage-permittering-refusjon';
 const server = express();
 const mustacheExpress = require('mustache-express');
+const { getConfiguredTokenXClient, apiTokenExchange } = require('./tokenexchange');
 const getDecorator = require('./decorator');
 const Promise = require('promise');
 const port = process.env.PORT || 3000;
-const apiTokenExchange = require('./tokenexchange');
 
 const buildPath = path.join(__dirname,'../../build');
 
