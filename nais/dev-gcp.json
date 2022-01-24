@@ -1,0 +1,10 @@
+{
+    "loginservice-login-url": "https://loginservice.dev.nav.no/login?redirect=https://klage-permittering-refusjon.dev.nav.no/klage-permittering-refusjon",
+    "loginservice-logout-url": "https://loginservice.dev.nav.no/slo",
+    "api-audience": "dev-fss:teamloennskomp:klage-permittering-refusjon-api",
+    "api-cluster": "dev-fss",
+    "ingress": "https://klage-permittering-refusjon.dev.nav.no/klage-permittering-refusjon",
+    "api-external-host": "https://klage-permittering-refusjon-api.dev-fss-pub.nais.io",
+    "decorator-external-host": "dekoratoren.dev.nav.no",
+    "slack-alert-channel": "lonnskomp_refusjon_alerts_dev"
+}

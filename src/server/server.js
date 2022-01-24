@@ -6,13 +6,12 @@ const mustacheExpress = require('mustache-express');
 const getDecorator = require('./decorator');
 const Promise = require('promise');
 const port = process.env.PORT || 3000;
-const sonekrysning = require('./sonekrysningConfig.js');
 const veilarbStatusProxyConfig = require('./veilarbStatusProxyConfig');
 const createEnvSettingsFile = require('./envSettings.js');
+const apiTokenExchange = require('./tokenexchange');
 
 const buildPath = path.join(__dirname,'../../build');
 
-server.use(`${BASE_PATH}/api`, sonekrysning);
 server.use(`${BASE_PATH}/veilarbstepup/status`, veilarbStatusProxyConfig);
 
 server.engine('html', mustacheExpress());
@@ -38,9 +37,12 @@ const renderApp = decoratorFragments =>
         });
     });
 
-const startServer = html => {
+const startServer = async html => {
     console.log("start server");
-    server.use(BASE_PATH, express.static(buildPath,{index: false}));
+    server.use(BASE_PATH, express.static(buildPath, {index: false}));
+
+    const { tokenXClient, tokenXIssuer } = await getConfiguredTokenXClient();
+    apiTokenExchange(server, tokenXClient, tokenXIssuer);
 
     setInternalEndpoints();
     server.get(`${BASE_PATH}/*`, (req, res) => {
