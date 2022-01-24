@@ -1,5 +1,4 @@
 const { Issuer } = require('openid-client');
-const proxy = require('express-http-proxy');
 const jws = require('jws');
 
 const testJwk = JSON.stringify({
