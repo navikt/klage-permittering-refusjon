@@ -2,18 +2,13 @@ import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Element, Normaltekst, Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import environment from '../../utils/environment';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { basename } from '../../lenker';
 import './Logginn.less';
 
 export const redirectTilLogin = () => {
-    if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-        window.location.href = basename + '/redirect-til-login';
-    } else {
-        window.location.href = 'http://localhost:8080/klage-permittering-refusjon-api/local/cookie?redirect=http://localhost:3000/klage-permittering-refusjon'
-    }
+    window.location.href = `/klage-permittering-refusjon/oauth2/login?redirect=/klage-permittering-refusjon`;
 };
 
 export const LoggInn: FunctionComponent = () => {

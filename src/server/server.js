@@ -6,7 +6,6 @@ const mustacheExpress = require('mustache-express');
 const getDecorator = require('./decorator');
 const Promise = require('promise');
 const port = process.env.PORT || 3000;
-const createEnvSettingsFile = require('./envSettings.js');
 const apiTokenExchange = require('./tokenexchange');
 
 const buildPath = path.join(__dirname,'../../build');
@@ -14,8 +13,6 @@ const buildPath = path.join(__dirname,'../../build');
 server.engine('html', mustacheExpress());
 server.set('view engine', 'mustache');
 server.set('views', buildPath);
-
-createEnvSettingsFile(path.resolve(`${buildPath}/static/js/settings.js`));
 
 server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
     const loginUrl = process.env.LOGIN_URL ||

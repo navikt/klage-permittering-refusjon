@@ -12,28 +12,16 @@ export enum Tilgang {
 const LoginBoundary: FunctionComponent = (props) => {
     const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
-    function localLogin() {
-        if (document.cookie.includes('localhost-idtoken')) {
-            setInnlogget(Tilgang.TILGANG);
-        } else {
-            setInnlogget(Tilgang.IKKE_TILGANG);
-        }
-    }
-
     useEffect(() => {
         setInnlogget(Tilgang.LASTER);
         const getLoginStatus = async () => {
             const abortController = new AbortController();
             const signal = abortController.signal;
-            if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-                let innloggingsstatus = await sjekkInnlogget(signal);
-                if (innloggingsstatus) {
-                    setInnlogget(Tilgang.TILGANG);
-                } else {
-                    setInnlogget(Tilgang.IKKE_TILGANG);
-                }
+            let innloggingsstatus = await sjekkInnlogget(signal);
+            if (innloggingsstatus) {
+                setInnlogget(Tilgang.TILGANG);
             } else {
-                localLogin();
+                setInnlogget(Tilgang.IKKE_TILGANG);
             }
         };
         getLoginStatus();
