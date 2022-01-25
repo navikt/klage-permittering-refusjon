@@ -56,7 +56,10 @@ const getConfiguredTokenXClient = async () => {
 };
 
 const getTestTokenX = req => {
-    return req.cookies['localhost-tokendings'];
+    if (req.cookies) {
+        return req.cookies['localhost-tokendings'];
+    }
+    return null;
 };
 
 const getBearerAuth = req => {
