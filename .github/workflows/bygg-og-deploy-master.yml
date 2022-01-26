@@ -39,46 +39,26 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-          #deploy-dev-gcp:
-          #name: Deploy til dev-gcp
-          #needs: bygg
-          #runs-on: ubuntu-latest
-          #steps:
-          #- name: Sjekk ut kode
-          #uses: actions/checkout@v2
-          #with:
-          #fetch-depth: 0
-          #
-          #- name: Deploy
-          #uses: nais/deploy/actions/deploy@v1
-          #env:
-          #TEAM: teamloennskomp
-          #APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          #CLUSTER: dev-gcp
-          #RESOURCE: naiserator.yaml
-          #PRINT_PAYLOAD: true
-          #VARS: nais/dev-gcp.json
-          ##REF: ${{ env.COMMIT }}
-          #IMAGE: ${{ env.IMAGE }}
+      - name: Deploy til dev
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          TEAM: teamloennskomp
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: naiserator.yaml
+          PRINT_PAYLOAD: true
+          VARS: nais/dev-gcp.json
+          REF: ${{ env.COMMIT }}
+          IMAGE: ${{ env.IMAGE }}
 
-          #deploy-prod-gcp:
-          #name: Deploy til prod-gcp
-          #needs: deploy-dev-gcp
-          #runs-on: ubuntu-latest
-          #steps:
-          #- name: Sjekk ut kode
-          #uses: actions/checkout@v2
-          #with:
-          #fetch-depth: 0
-          #
-          #- name: Deploy til prod-gcp
-          #uses: nais/deploy/actions/deploy@v1
-          #env:
-          #TEAM: teamloennskomp
-          #APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          #CLUSTER: prod-gcp
-          #RESOURCE: naiserator.yaml
-          #PRINT_PAYLOAD: true
-          #VARS: nais/prod-gcp.json
-          #REF: ${{ env.COMMIT }}
-          #IMAGE: ${{ env.IMAGE }}
+      - name: Deploy til prod-gcp
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          TEAM: teamloennskomp
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: naiserator.yaml
+          PRINT_PAYLOAD: true
+          VARS: nais/prod-gcp.json
+          REF: ${{ env.COMMIT }}
+          IMAGE: ${{ env.IMAGE }}
