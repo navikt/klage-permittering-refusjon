@@ -5,6 +5,6 @@
     "api-cluster": "prod-fss",
     "ingress": "https://arbeidsgiver.nav.no/klage-permittering-refusjon",
     "api-external-host": "https://klage-permittering-refusjon-api.prod-fss-pub.nais.io",
-    "decorator-external-host": "dekoratoren.nav.no",
+    "decorator-external-host": "https://www.nav.no/dekoratoren",
     "slack-alert-channel": "lonnskomp_refusjon_alerts"
 }
