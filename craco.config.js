@@ -1,7 +1,18 @@
 const CracoLessPlugin = require('craco-less');
+const { ESLINT_MODES } = require('@craco/craco');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const apiProxyPath = '/klage-permittering-refusjon/api';
+const { ChangeJsFilename, ChangeCssFilename } = require('@navikt/craco-plugins');
 
+module.exports = function () {
+    return {
+        eslint: {
+            mode: ESLINT_MODES.file
+        },
+        plugins: [{ plugin: CracoLessPlugin }, { plugin: ChangeCssFilename }, { plugin: ChangeJsFilename }]
+    };
+};
+/*
 module.exports = {
     devServer: {
         before: (app) => {
@@ -14,5 +25,9 @@ module.exports = {
             );
         }
     },
-    plugins: [{ plugin: CracoLessPlugin }],
+    eslint: {
+        mode: ESLINT_MODES.file
+    },
+    plugins: [{ plugin: CracoLessPlugin }, { plugin: ChangeCssFilename }, { plugin: ChangeJsFilename }],
 };
+**/
