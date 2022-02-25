@@ -7,6 +7,7 @@ COPY yarn.lock ./
 
 USER root
 RUN yarn install --no-optional
+RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
 USER apprunner
 
 COPY src/ src/
