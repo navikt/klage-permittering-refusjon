@@ -3,9 +3,6 @@
     "version": "0.1.0",
     "private": true,
     "homepage": "/klage-permittering-refusjon",
-    "engines": {
-        "node": "^17.4.0"
-    },
     "dependencies": {
         "@navikt/bedriftsmeny": "3.5.3",
         "@navikt/fnrvalidator": "^1.1.3",
