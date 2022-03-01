@@ -7,14 +7,14 @@ COPY yarn.lock ./
 
 USER root
 RUN yarn install --no-optional
-RUN mkdir -p node_modules/.cache && chmod -R 777 node_modules/.cache
-USER apprunner
 
 COPY src/ src/
 COPY public/ public/
 COPY craco.config.js ./
 COPY tsconfig.json ./
+
 RUN yarn build
+USER apprunner
 
 COPY start.sh ./
 
