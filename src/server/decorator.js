@@ -7,7 +7,7 @@ url = '';
 if (process.env.NAIS_CLUSTER_NAME === 'prod-gcp') {
     url = 'https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&level=Level4';
 } else {
-    url = 'https://www-q1.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&level=Level4';
+    url = 'https://dekoratoren.dev.nav.no/?context=arbeidsgiver&redirectToApp=true&level=Level4';
 }
 
 const requestDecorator = (callback) => request(url, callback);
