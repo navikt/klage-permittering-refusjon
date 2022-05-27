@@ -2,8 +2,8 @@ import amplitude from 'amplitude-js';
 
 const getApiKey = () => {
     return window.location.hostname === 'arbeidsgiver.nav.no'
-        ? process.env.AMPLITUDE_API_KEY_PROD
-        : process.env.AMPLITUDE_API_KEY_DEV;
+        ? 'a8243d37808422b4c768d31c88a22ef4'
+        : '6ed1f00aabc6ced4fd6fcb7fcdc01b30';
 };
 
 const instance = amplitude.getInstance();

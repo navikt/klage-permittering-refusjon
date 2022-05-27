@@ -48,7 +48,3 @@ spec:
       value: {{api-external-host}}
     - name: API_AUDIENCE
       value: {{api-audience}}
-    - name: AMPLITUDE_API_KEY_DEV
-      value: ${{ secrets.AMPLITUDE_API_KEY_DEV }}
-    - name: AMPLITUDE_API_KEY_PROD
-      value: ${{ secrets.AMPLITUDE_API_KEY_PROD }}
