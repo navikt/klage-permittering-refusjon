@@ -48,3 +48,13 @@ spec:
       value: {{api-external-host}}
     - name: API_AUDIENCE
       value: {{api-audience}}
+    - name: AMPLITUDE_API_KEY_DEV
+      valueFrom:
+        secretKeyRef:
+          name: amplitude-api-key
+          key: dev
+    - name: AMPLITUDE_API_KEY_PROD
+      valueFrom:
+        secretKeyRef:
+          name: amplitude-api-key
+          key: prod
