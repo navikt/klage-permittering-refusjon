@@ -37,6 +37,9 @@ spec:
       external:
         - host: {{decorator-external-host}}
         - host: {{api-external-host}}
+  envFrom:
+    - secretRef:
+      name: amplitude-api-key
   env:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
@@ -48,13 +51,3 @@ spec:
       value: {{api-external-host}}
     - name: API_AUDIENCE
       value: {{api-audience}}
-    - name: AMPLITUDE_API_KEY_DEV
-      valueFrom:
-        secretKeyRef:
-          name: amplitude-api-key
-          key: dev
-    - name: AMPLITUDE_API_KEY_PROD
-      valueFrom:
-        secretKeyRef:
-          name: amplitude-api-key
-          key: prod
