@@ -11,6 +11,7 @@ interface CustomLenkepanel {
 export const ManglerTilgangLenkePanel = (props: CustomLenkepanel) => {
     return (
         <div className="mangler-tilgang-lenkepanel">
+            {/*Oppdater denne*/}
             <LenkepanelBase href={props.lenke} border>
                 <div>
                     <div>
