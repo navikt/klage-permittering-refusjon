@@ -9,7 +9,7 @@ For å kjøre lokalt kreves det at man har node og yarn installert
 
 ### Kjør lokalt
   * kjør `yarn install` 
-  * kjør `yarn start`, for å bygge og kjøre frontend lokalt
+  * kjør `yarn mock`, for å bygge og kjøre frontend lokalt
 
 ## Henvendelser
 Spørsmål knyttet til koden eller prosjektet kan rettes mot:
