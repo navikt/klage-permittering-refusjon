@@ -1,6 +1,6 @@
 import React from 'react';
-import { Systemtittel } from 'nav-frontend-typografi';
-import { LenkepanelBase } from 'nav-frontend-lenkepanel/lib';
+import { LinkPanel } from '@navikt/ds-react';
+import '@navikt/ds-css';
 
 interface CustomLenkepanel {
     tittel: string;
@@ -11,15 +11,10 @@ interface CustomLenkepanel {
 export const ManglerTilgangLenkePanel = (props: CustomLenkepanel) => {
     return (
         <div className="mangler-tilgang-lenkepanel">
-            {/*Oppdater denne*/}
-            <LenkepanelBase href={props.lenke} border>
-                <div>
-                    <div>
-                        <Systemtittel className="lenkepanel__heading">{props.tittel}</Systemtittel>
-                        <p>{props.infoTekst}</p>
-                    </div>
-                </div>
-            </LenkepanelBase>
+            <LinkPanel href={props.lenke} border>
+                <LinkPanel.Title>{props.tittel}</LinkPanel.Title>
+                <LinkPanel.Description>{props.infoTekst}</LinkPanel.Description>
+            </LinkPanel>
         </div>
     );
 };
