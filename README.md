@@ -1,6 +1,6 @@
 # Klage-permittering-refusjon 
 
-Klage på vedtak for refusjon ved permittering
+Denne tjenesten er en frontend applikasjon for innsending av klager på vedtak om koronaytelsen lønnskompensasjon. Backend for denne tjenesten er [klage-permittering-refusjon-api](https://github.com/navikt/klage-permittering-refusjon-api).
 
 ## Komme i gang
 
